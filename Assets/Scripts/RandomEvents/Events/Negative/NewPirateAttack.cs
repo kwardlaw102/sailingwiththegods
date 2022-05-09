@@ -8,7 +8,7 @@ public class NewPirateAttack : RandomEvents.NegativeEvent
 
 	//increased weight to have minigame occur more often
 	public override float Weight() {
-		return 10f;
+		return 2f;
 	}
 
 	//checks to see if the player is within one of the pirate zones
