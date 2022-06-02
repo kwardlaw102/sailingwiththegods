@@ -43,10 +43,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 968612a2cbcbb7b4c9edf0ac5c80d68f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumHouses: 100
+  NumHouses: 50
   CityRadius: 1
-  BuildingRadius: 0.02
+  BuildingRadius: 0.03
   DockOffset: -0.3
+  Scale: 0.75
   HousePrefabs:
   - Prefab: {fileID: 6112617561141462108, guid: 8a62958dfd44efb499bc7a6675af69bd,
       type: 3}
