@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,16 @@ public class CityBuildingSpawner : MonoBehaviour
 	[SerializeField] float CityRadius = 1f;
 	[SerializeField] float BuildingRadius = 0.05f;
 	[SerializeField] float DockOffset = -0.3f;
+	[SerializeField] float Scale = 0.75f;
 
-	[SerializeField] GameObject[] HousePrefabs = null;
+	[Serializable]
+	class BuildingOption
+	{
+		public GameObject Prefab;
+		public float Weight;
+	}
+
+	[SerializeField] BuildingOption[] HousePrefabs = null;
 	[SerializeField] GameObject DockPrefab = null;
 
 	// fallback to slower FindObjectByType for editor usage
@@ -29,12 +38,14 @@ public class CityBuildingSpawner : MonoBehaviour
 		Clear();
 
 		for (var i = 0; i < NumHouses; i++) {
-			GameObject.Instantiate(
-				HousePrefabs.RandomElement(),
+			var house = GameObject.Instantiate(
+				HousePrefabs.WeightedRandomElement(HousePrefabs.Select(h => h.Weight)).Prefab,
 				GetBestRandomPosition(),
-				Quaternion.Euler(0, Random.Range(0, 360), 0),
+				Quaternion.Euler(0, UnityEngine.Random.Range(0, 360), 0),
 				transform
 			);
+
+			house.transform.localScale = Vector3.one * Scale;
 		}
 
 		// kill buildings that are in the water. we don't try to replace them since it'd probably make things too dense

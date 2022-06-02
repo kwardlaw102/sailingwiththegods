@@ -44,10 +44,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NumHouses: 100
-  CityRadius: 2
-  BuildingRadius: 0.05
+  CityRadius: 1
+  BuildingRadius: 0.02
+  DockOffset: -0.3
   HousePrefabs:
-  - {fileID: 6112617561141462108, guid: 8a62958dfd44efb499bc7a6675af69bd, type: 3}
-  - {fileID: 7996919919797747161, guid: e5c330c9d4357064f8fba9be5c2f4791, type: 3}
+  - Prefab: {fileID: 6112617561141462108, guid: 8a62958dfd44efb499bc7a6675af69bd,
+      type: 3}
+    Weight: 10
+  - Prefab: {fileID: 7996919919797747161, guid: e5c330c9d4357064f8fba9be5c2f4791,
+      type: 3}
+    Weight: 1
   DockPrefab: {fileID: 1093932679839710081, guid: 51f5b5ae1fb2a9c448067fedd1e91b81,
     type: 3}
