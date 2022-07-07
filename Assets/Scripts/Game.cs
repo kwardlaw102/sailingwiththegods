@@ -150,16 +150,26 @@ public class Game
 		}
 	}
 
+	static string LoadGitHashFromBuild() {
+#if UNITY_EDITOR
+		return GitInfo.FindGitShortHash() + "-editor";
+#else
+		return File.ReadAllText(Path.Combine(Application.dataPath, "gitversion.txt"));
+#endif
+	}
+
 	public static void SaveUserGameData(GameSession session, World world, Notifications notifications) {
 		string delimitedData = session.playerShipVariables.journey.ConvertJourneyLogToCSVText();
 		Debug.Log(delimitedData);
 		string filePath = Application.persistentDataPath + "/";
 
+		var fileBaseName = SystemInfo.deviceUniqueIdentifier + "_player_data_" + System.DateTime.UtcNow.ToString("HH-mm-ss_dd_MMMM_yyyy") + "_" + LoadGitHashFromBuild() + ".csv";
+
 		string fileNameServer = "";
 		if (world.DEBUG_MODE_ON)
-			fileNameServer += "DEBUG_DATA_" + SystemInfo.deviceUniqueIdentifier + "_player_data_" + System.DateTime.UtcNow.ToString("HH-mm-ss_dd_MMMM_yyyy") + ".csv";
+			fileNameServer += "DEBUG_DATA_" + fileBaseName;
 		else
-			fileNameServer += SystemInfo.deviceUniqueIdentifier + "_player_data_" + System.DateTime.UtcNow.ToString("HH-mm-ss_dd_MMMM_yyyy") + ".csv";
+			fileNameServer += fileBaseName;
 
 		string fileName = "player_save_game.txt";
 
@@ -167,14 +177,14 @@ public class Game
 		//causes the code to fall short and quit before saving to the server
 		try {
 			//save a backup before Joanna's edits
-			System.IO.File.WriteAllText(Application.persistentDataPath + "/BACKUP-" + SystemInfo.deviceUniqueIdentifier + "_player_data_" + System.DateTime.UtcNow.ToString("HH-mm-ss_dd_MMMM_yyyy") + ".csv", delimitedData);
+			System.IO.File.WriteAllText(Application.persistentDataPath + "/BACKUP-" + fileBaseName, delimitedData);
 			System.IO.File.WriteAllText(Application.persistentDataPath + "/" + fileName, delimitedData);
 			//TODO Temporary addition for joanna to remove the captains log from the server upload
 			string fileToUpload = RemoveCaptainsLogForJoanna(delimitedData);
 			System.IO.File.WriteAllText(Application.persistentDataPath + "/" + fileNameServer, fileToUpload);
 			Debug.Log(Application.persistentDataPath);
 
-			// secretly save a JSON version of the save data to prep for a move to make that the canonical save file - but it's not hooked up to be loaded yet
+			// save a JSON version of the save data to prep for a move to make that the canonical save file - for now only new data is loaded from it, most is still loaded from the CSV
 			System.IO.File.WriteAllText(Application.persistentDataPath + "/save.json", JsonUtility.ToJson(session.data));
 		}
 		catch (Exception e) {
@@ -185,9 +195,9 @@ public class Game
 
 	}
 
-	#endregion
+#endregion
 
-	#region Internal Functions
+#region Internal Functions
 
 	void StartMainGameInternal() {
 		World.camera_titleScreen.SetActive(false);
