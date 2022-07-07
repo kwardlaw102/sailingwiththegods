@@ -50,8 +50,12 @@ public static class Utils
 		return default(T);
 	}
 
+	public static Vector2 XY(this Vector3 self) => new Vector2(self.x, self.y);
 	public static Vector2 XZ(this Vector3 self) => new Vector2(self.x, self.z);
+	public static Vector3 XZY(this Vector3 self) => new Vector3(self.x, self.z, self.y);
 	public static Vector2 Reverse(this Vector2 self) => new Vector2(self.y, self.x);
+
+	public static Vector3 ToVector3(this Vector2 self) => new Vector3(self.x, self.y);
 
 	public static Vector2 With(this Vector2 self, float? x = null, float? y = null) =>
 		new Vector2(x ?? self.x, y ?? self.y);

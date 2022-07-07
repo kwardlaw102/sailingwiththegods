@@ -183,9 +183,8 @@ public class World : MonoBehaviour
 			}
 			//We need to check if the settlement has an adjusted position or not--if it does then use it, otherwise use the given lat long coordinate
 			if (settlement.adjustedGamePosition.x == 0) {
-				Vector2 tempXY = CoordinateUtil.Convert_WebMercator_UnityWorld(CoordinateUtil.ConvertWGS1984ToWebMercator(settlement.location_longXlatY));
-				Vector3 tempPos = new Vector3(tempXY.x, terrain.GetComponent<Terrain>().SampleHeight(new Vector3(tempXY.x, 0, tempXY.y)), tempXY.y);
-				currentSettlement.transform.position = tempPos;
+				Vector3 adjustedPos = CoordinateUtil.ConvertWGS1984ToUnityWorld(settlement.location_longXlatY, 0);
+				currentSettlement.transform.position = adjustedPos.With(y: terrain.GetComponent<Terrain>().SampleHeight(adjustedPos));
 			}
 			else {
 				currentSettlement.transform.position = settlement.adjustedGamePosition;

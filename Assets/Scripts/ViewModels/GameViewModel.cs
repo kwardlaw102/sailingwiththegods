@@ -26,7 +26,7 @@ public class GameViewModel : Model
 	//THIS IS THE SAVE DATA BUTTON
 	public void GUI_saveGame() {
 		Notifications.ShowANotificationMessage("Saved Data File 'player_save_game.txt' To: " + Application.persistentDataPath + "/");
-		Game.SaveUserGameData();
+		Game.SaveUserGameData(Session, World, Notifications);
 	}
 
 	//-----------------------------------------------------

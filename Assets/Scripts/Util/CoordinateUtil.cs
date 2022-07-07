@@ -17,29 +17,57 @@ public static class CoordinateUtil
 	public static float ToMeters(float worldUnits) => worldUnits * unityWorldUnitResolution;
 	public static float ToKilometers(float worldUnits) => ToMeters(worldUnits) / 1000f;
 
-	public static Vector2 Convert_WebMercator_UnityWorld(Vector2 WTM_Coordinate) {
-
-		Vector2 convertedCoordinate;
-		convertedCoordinate.x = (WTM_Coordinate.x - (rasterMapOriginMeter.x - unityOrigin)) / unityWorldUnitResolution;
-		convertedCoordinate.y = (WTM_Coordinate.y - (rasterMapOriginMeter.y - unityOrigin)) / unityWorldUnitResolution;
-		//Debug.Log (convertedCoordinate.x + " : " + convertedCoordinate.y);
-		//Debug.Log (WTM_Coordinate.x + " : " + WTM_Coordinate.y);
-		return convertedCoordinate;
+	/// <summary>
+	/// Given coordinate must be stored like (x, height, z) where x and z are on the "world plane".
+	/// the height will be unchanged from what is passed in.
+	/// </summary>
+	public static (Vector2, float height) ConvertUnityWorldToWGS1984(Vector3 unity_coordinate) {
+		var (wtm, height) = Convert_UnityWorld_WebMercator(unity_coordinate);
+		var wgs1984 = ConvertWebMercatorToWGS1984(wtm);
+		return (wgs1984, height);
 	}
 
-	public static Vector3 Convert_UnityWorld_WebMercator(Vector3 unity_coordinate) {
+	/// <summary>
+	/// Given coordinate should be stored like (LongX, LatY)
+	/// Result will put the given height in the y field of the result. the height will be unchanged from what is passed in.
+	/// </summary>
+	public static Vector3 ConvertWGS1984ToUnityWorld(Vector2 wgsLongLat, float height) {
+		var wtm = ConvertWGS1984ToWebMercator(wgsLongLat);
+		return Convert_WebMercator_UnityWorld(wtm, height);
+	}
+
+
+	/// <summary>
+	/// Given coordinate should be stored like (WebMercX, WebMercY)
+	/// Result will be in the form (convertedX, height, convertedY) in Unity world space
+	/// </summary>
+	public static Vector3 Convert_WebMercator_UnityWorld(Vector2 WTM_Coordinate, float height) {
 
 		Vector3 convertedCoordinate;
-		convertedCoordinate.x = (unity_coordinate.x * unityWorldUnitResolution) + (rasterMapOriginMeter.x - unityOrigin);
-		convertedCoordinate.y = (unity_coordinate.z * unityWorldUnitResolution) + (rasterMapOriginMeter.y - unityOrigin);
-		convertedCoordinate.z = unity_coordinate.y;
+		convertedCoordinate.x = (WTM_Coordinate.x - (rasterMapOriginMeter.x - unityOrigin)) / unityWorldUnitResolution;
+		convertedCoordinate.y = height;
+		convertedCoordinate.z = (WTM_Coordinate.y - (rasterMapOriginMeter.y - unityOrigin)) / unityWorldUnitResolution;
 		return convertedCoordinate;
 	}
+
+	/// <summary>
+	/// Given coordinate must be stored like (x, height, z) where x and z are on the "world plane".
+	/// Result will put the given height in the z field of the result in case it's needed. the height will be unchanged from what is passed in.
+	/// </summary>
+	public static (Vector2, float height) Convert_UnityWorld_WebMercator(Vector3 unity_coordinate) {
+
+		Vector2 convertedCoordinate;
+		convertedCoordinate.x = (unity_coordinate.x * unityWorldUnitResolution) + (rasterMapOriginMeter.x - unityOrigin);
+		convertedCoordinate.y = (unity_coordinate.z * unityWorldUnitResolution) + (rasterMapOriginMeter.y - unityOrigin);
+		return (convertedCoordinate, unity_coordinate.y);
+	}
+
+
 	public static Vector2 ConvertWGS1984ToWebMercator(Vector2 WGSLongLat) {
 
 
 		if ((Math.Abs(WGSLongLat.x) > 180 || Math.Abs(WGSLongLat.y) > 90))
-			return Vector2.zero;
+			return Vector3.zero;
 
 		double num = WGSLongLat.x * 0.017453292519943295;
 		double x = 6378137.0 * num;
@@ -51,6 +79,7 @@ public static class CoordinateUtil
 		return WGSLongLat;
 
 	}
+
 	public static Vector2 ConvertWebMercatorToWGS1984(Vector2 MercatorEastNorth) {
 		double mercatorX_lon = MercatorEastNorth.x;
 		double mercatorY_lat = MercatorEastNorth.y;
@@ -78,6 +107,7 @@ public static class CoordinateUtil
 
 		return new Vector2((float)mercatorX_lon, (float)mercatorY_lat);
 	}
+
 	public static float GetDistanceBetweenTwoLatLongCoordinates(Vector2 lonXlatY_A, Vector2 lonXlatY_B) {
 		//This distance formula uses a Haversine formula to calculate the distance
 		//It assumes a spherical earth rather than ellipsoidal which can give distance errors of roughly 0.3%

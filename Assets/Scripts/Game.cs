@@ -77,7 +77,7 @@ public class Game
 
 		//Debug.Log ("Quest Seg: " + playerShipVariables.ship.mainQuest.currentQuestSegment);
 		//First we need to save the game that just ended
-		SaveUserGameData();
+		SaveUserGameData(Session, World, Notifications);
 		//Then we need to re-initialize all the player's variables
 		session.playerShipVariables.Reset();
 
@@ -111,7 +111,7 @@ public class Game
 	public void LoadGame(Difficulty difficulty) {
 		Session = new GameSession();
 
-		if (LoadSavedGameInternal()) {
+		if (LoadSavedGameInternal(Session, Notifications, Database, Quests, World)) {
 			isLoadedGame = true;
 			isTitleScreen = false;
 			isStartScreen = false;
@@ -150,15 +150,13 @@ public class Game
 		}
 	}
 
-	public void SaveUserGameData() {
-		var session = Session;
-
+	public static void SaveUserGameData(GameSession session, World world, Notifications notifications) {
 		string delimitedData = session.playerShipVariables.journey.ConvertJourneyLogToCSVText();
 		Debug.Log(delimitedData);
 		string filePath = Application.persistentDataPath + "/";
 
 		string fileNameServer = "";
-		if (World.DEBUG_MODE_ON)
+		if (world.DEBUG_MODE_ON)
 			fileNameServer += "DEBUG_DATA_" + SystemInfo.deviceUniqueIdentifier + "_player_data_" + System.DateTime.UtcNow.ToString("HH-mm-ss_dd_MMMM_yyyy") + ".csv";
 		else
 			fileNameServer += SystemInfo.deviceUniqueIdentifier + "_player_data_" + System.DateTime.UtcNow.ToString("HH-mm-ss_dd_MMMM_yyyy") + ".csv";
@@ -180,10 +178,10 @@ public class Game
 			System.IO.File.WriteAllText(Application.persistentDataPath + "/save.json", JsonUtility.ToJson(session.data));
 		}
 		catch (Exception e) {
-			Notifications.ShowANotificationMessage("ERROR: a backup wasn't saved at: " + Application.persistentDataPath + "  - which means it may not have uploaded either: " + e.Message);
+			notifications.ShowANotificationMessage("ERROR: a backup wasn't saved at: " + Application.persistentDataPath + "  - which means it may not have uploaded either: " + e.Message);
 		}
 		//Only upload to the server is the DebugMode is OFF
-		if (!World.DEBUG_MODE_ON) SaveUserGameDataToServer(filePath, fileNameServer);
+		if (!world.DEBUG_MODE_ON) SaveUserGameDataToServer(notifications, filePath, fileNameServer);
 
 	}
 
@@ -217,9 +215,7 @@ public class Game
 		UI.Show<Dashboard, DashboardViewModel>(new DashboardViewModel(Session));
 	}
 
-	bool LoadSavedGameInternal() {
-		var session = Session;
-
+	static bool LoadSavedGameInternal(GameSession session, Notifications notifications, Database database, QuestSystem quests, World world) {
 		PlayerJourneyLog loadedJourney = new PlayerJourneyLog();
 		Ship ship = session.playerShipVariables.ship;
 
@@ -233,7 +229,7 @@ public class Game
 			saveText = File.ReadAllText(Application.persistentDataPath + "/player_save_game.txt");
 		}
 		catch (Exception error) {
-			Notifications.ShowANotificationMessage("Sorry! No load game 'player_save_game.txt' was found in the game directory '" + Application.persistentDataPath + "' or the save file is corrupt!\nError Code: " + error);
+			notifications.ShowANotificationMessage("Sorry! No load game 'player_save_game.txt' was found in the game directory '" + Application.persistentDataPath + "' or the save file is corrupt!\nError Code: " + error);
 			return false;
 		}
 
@@ -252,13 +248,13 @@ public class Game
 #endif
 
 			if (session.data.Version < GameData.LatestVersion) {
-				Notifications.ShowANotificationMessage("JSON save data was on an old breaking version number. Was: " + session.data.Version + " Now: " + GameData.LatestVersion + ". JSON save data reset.");
+				notifications.ShowANotificationMessage("JSON save data was on an old breaking version number. Was: " + session.data.Version + " Now: " + GameData.LatestVersion + ". JSON save data reset.");
 				session.ResetGameData();
 
 			}
 		}
 		catch (Exception) {
-			Notifications.ShowANotificationMessage("JSON save data incompatible with latest version. Now: " + GameData.LatestVersion + ". JSON save data reset.");
+			notifications.ShowANotificationMessage("JSON save data incompatible with latest version. Now: " + GameData.LatestVersion + ". JSON save data reset.");
 			session.ResetGameData();
 		}
 
@@ -279,11 +275,20 @@ public class Game
 			string[] records = fileByLine[lineCount].Split(lineDelimiter, StringSplitOptions.None);
 
 			//First Add the basic route
-			Vector3 origin = new Vector3(float.Parse(records[2]), float.Parse(records[3]), float.Parse(records[4]));
-			Vector3 destination = new Vector3(float.Parse(records[5]), float.Parse(records[6]), float.Parse(records[7]));
+			var originWGS1984 = new Vector3(float.Parse(records[2]), float.Parse(records[3]));
+			var originHeight = float.Parse(records[4]);
+			var destinationWGS1984 = new Vector2(float.Parse(records[5]), float.Parse(records[6]));
+			var destinationHeight = float.Parse(records[7]);
+
+			originWGS1984 = RepairWGS1984(originWGS1984);
+			destinationWGS1984 = RepairWGS1984(destinationWGS1984);
+
+			Vector3 originWorld = CoordinateUtil.ConvertWGS1984ToUnityWorld(originWGS1984, originHeight);
+			Vector3 destinationWorld = CoordinateUtil.ConvertWGS1984ToUnityWorld(destinationWGS1984, destinationHeight);
+
 			float numOfDays = float.Parse(records[1]);
 
-			loadedJourney.routeLog.Add(new PlayerRoute(origin, destination, numOfDays));
+			loadedJourney.routeLog.Add(new PlayerRoute(originWorld, destinationWorld, numOfDays));
 
 			//Next add the cargo manifest
 			string CSVcargo = "";
@@ -325,7 +330,7 @@ public class Game
 		List<CrewMember> updatedCrew = new List<CrewMember>();
 		string[] parsedCrew = playerVars[26].Split(recordDelimiter, StringSplitOptions.None);
 		foreach (string crewID in parsedCrew) {
-			updatedCrew.Add(Database.GetCrewMemberFromID(int.Parse(crewID)));
+			updatedCrew.Add(database.GetCrewMemberFromID(int.Parse(crewID)));
 		}
 		ship.crewRoster.Clear();
 		updatedCrew.ForEach(c => ship.crewRoster.Add(c));
@@ -338,7 +343,7 @@ public class Game
 		ship.mainQuest.currentQuestSegment = int.Parse(playerVars[28]);
 
 		// Update objective
-		ship.objective = Quests.CurrSegment?.objective;
+		ship.objective = quests.CurrSegment?.objective;
 
 		//Update Ship Health
 		ship.health = float.Parse(playerVars[29]);
@@ -378,10 +383,10 @@ public class Game
 			ship.currentNavigatorTarget = targetID;
 			//change location of beacon
 			Vector3 location = Vector3.zero;
-			for (int x = 0; x < World.settlement_masterList_parent.transform.childCount; x++)
-				if (World.settlement_masterList_parent.transform.GetChild(x).GetComponent<script_settlement_functions>().thisSettlement.settlementID == targetID)
-					location = World.settlement_masterList_parent.transform.GetChild(x).position;
-			session.ActivateNavigatorBeacon(World.navigatorBeacon, location);
+			for (int x = 0; x < world.settlement_masterList_parent.transform.childCount; x++)
+				if (world.settlement_masterList_parent.transform.GetChild(x).GetComponent<script_settlement_functions>().thisSettlement.settlementID == targetID)
+					location = world.settlement_masterList_parent.transform.GetChild(x).position;
+			session.ActivateNavigatorBeacon(world.navigatorBeacon, location);
 		}
 		else {
 			ship.currentNavigatorTarget = -1;
@@ -394,7 +399,7 @@ public class Game
 
 			// parsedKnowns contains an empty string entry if you've never been to any cities, and other issues will come up too later in the process, so just warn and give up
 			if(string.IsNullOrEmpty(settlementID)) {
-				Notifications.ShowANotificationMessage("Loading a save file that has not visited any cities is not supported. Start a new game.");
+				notifications.ShowANotificationMessage("Loading a save file that has not visited any cities is not supported. Start a new game.");
 				return false;
 			}
 
@@ -413,16 +418,16 @@ public class Game
 		// KDTODO: Once the save game routines are rewritten, need to save the crew available in each city instead of regenerating since this is exploitable
 		// it's just too much hassle to support saving this right now because the CSV save format is limiting
 		// setup each city with 5 crew available and for now, they never regenerate.
-		foreach (var settlement in Database.settlement_masterList) {
+		foreach (var settlement in database.settlement_masterList) {
 			settlement.availableCrew.Clear();
-			GenerateRandomCrewMembers(5).ForEach(c => settlement.availableCrew.Add(c));
+			GenerateRandomCrewMembers(session, 5).ForEach(c => settlement.availableCrew.Add(c));
 		}
 
 		//If no errors then return true
 		return true;
 	}
 
-	void SaveUserGameDataToServer(string localPath, string localFile) {
+	static void SaveUserGameDataToServer(Notifications notifications, string localPath, string localFile) {
 		Debug.Log("Starting FTP");
 		string user = "samogamebot";
 		string pass = "8LV-GC>uw92rE4d%";
@@ -488,16 +493,16 @@ public class Game
 		}
 		catch (Exception e) {
 			Debug.LogError("Error uploading file: " + e.Message);
-			Notifications.ShowANotificationMessage("ERROR: No Upload--The server timed out or you currently do not have a stable internet connection\n" + e.Message);
+			notifications.ShowANotificationMessage("ERROR: No Upload--The server timed out or you currently do not have a stable internet connection\n" + e.Message);
 			return;
 		}
 
 		Debug.Log("Upload successful.");
-		Notifications.ShowANotificationMessage("File: '" + localFile + "' successfully uploaded to the server!");
+		notifications.ShowANotificationMessage("File: '" + localFile + "' successfully uploaded to the server!");
 	}
 
 	//TODO: This is an incredibly specific function that won't be needed later
-	string RemoveCaptainsLogForJoanna(string file) {
+	static string RemoveCaptainsLogForJoanna(string file) {
 		string[] splitFile = new string[] { "\r\n", "\r", "\n" };
 		string newFile = "";
 		string[] fileByLine = file.Split(splitFile, StringSplitOptions.None);
@@ -510,6 +515,38 @@ public class Game
 
 		return newFile;
 
+	}
+
+	static bool IsWGS1984InGreece(Vector2 wgs1984) {
+		var xIsClose = wgs1984.x >= 19 && wgs1984.x < 30;
+		var yIsClose = wgs1984.y >= 19 && wgs1984.y < 45;
+		return xIsClose && yIsClose;
+	}
+
+	static Vector2 RepairWGS1984(Vector2 coord) {
+		const int maxCorrections = 100;
+		for(var i = 0; i < maxCorrections; i++) {
+
+			if (!IsWGS1984InGreece(coord)) {
+				if(coord.x > 100 && coord.y > 100) {
+					// this happens when we saved the position as unity world coordinates instead of as latlong. convert it to wgs1984 before continuing
+					// the new save file routine converts to wgs1984 before saving, so this case is only to cover older files that saved cities in unity coordinates by accident
+					Debug.Log("Detected invalid coordinate in save file: " + coord + " - Looks like a Unity World Position. Converting back to WGS1984 to try to repair.");
+					var (newCoord, _) = CoordinateUtil.ConvertUnityWorldToWGS1984(new Vector3(coord.x, 0, coord.y));
+					coord = newCoord;
+				}
+				else {
+					// this happens when you save in wgs1984, then load the file (which previously did nothing), then save again which double converts it. so we need to convert until we get into a reasonable range
+					// the new load file route converts from wgs1984 to unity coordinates upon loading, so won't have this problem in future save files
+					Debug.Log("Detected invalid coordinate in save file: " + coord + " - Looks like it's been converted to WGS1984 more than once. Unconverting to try to repair.");
+					var newCoord = CoordinateUtil.ConvertWGS1984ToUnityWorld(coord, 0);
+					return newCoord.XZ();
+				}
+			}
+			else return coord;
+		}
+
+		throw new Exception("Save file contained corrupt position data, and we were unable to repair it. You'll have to start a new save.");
 	}
 
 
@@ -549,7 +586,7 @@ public class Game
 
 		//Now let's add randomly generated crew to the list until the quota of 40 is fulfilled
 		while (World.newGameAvailableCrew.Count < 40) {
-			World.newGameAvailableCrew.Add(GenerateRandomCrewMembers(1)[0]);
+			World.newGameAvailableCrew.Add(GenerateRandomCrewMembers(Session, 1)[0]);
 		}
 
 		// filter out people who don't have connections at the ports in your starting bay or have overwhelmingly large networks
@@ -594,18 +631,18 @@ public class Game
 
 #region TODO: Weird functions coupled with QuestSystem.InitiateQuestLineForPlayer
 
-	public List<CrewMember> GenerateRandomCrewMembers(int numberOfCrewmanNeeded) {
+	public static List<CrewMember> GenerateRandomCrewMembers(GameSession session, int numberOfCrewmanNeeded) {
 		//This function pulls from the list of available crewmembers in the world and selects random crewman from that list of a defined
 		//	--size that isn't already on board the ship and returns it. This may not return a full list if the requested number is too high--it will return
 		//	--the most it has available
 		List<CrewMember> availableCrew = new List<CrewMember>();
 		int numOfIterations = 0;
-		int numStandardCrew = Session.Crew.StandardCrew.Count();
+		int numStandardCrew = session.Crew.StandardCrew.Count();
 		while (numberOfCrewmanNeeded != availableCrew.Count) {
-			CrewMember thisMember = Session.Crew.StandardCrew.RandomElement();
+			CrewMember thisMember = session.Crew.StandardCrew.RandomElement();
 			if (!thisMember.isPartOfMainQuest) {
 				//Now make sure this crewmember isn't already in the current crew or available to hire
-				if (!Session.playerShipVariables.ship.crewRoster.Contains(thisMember) && !availableCrew.Contains(thisMember)) {
+				if (!session.playerShipVariables.ship.crewRoster.Contains(thisMember) && !availableCrew.Contains(thisMember)) {
 					availableCrew.Add(thisMember);
 				}
 			}

@@ -157,7 +157,7 @@ public class QuestSystem : MonoBehaviour
 				seg.trigger is QuestSegment.CoordTrigger coord &&
 				Vector2.Distance(
 					position, 
-					CoordinateUtil.Convert_WebMercator_UnityWorld(CoordinateUtil.ConvertWGS1984ToWebMercator(coord.LongXLatY))
+					CoordinateUtil.ConvertWGS1984ToUnityWorld(coord.LongXLatY, position.y)
 				) < CoordTriggerDistance
 			);
 
@@ -252,7 +252,7 @@ public class QuestSystem : MonoBehaviour
 		// setup each city with 5 crew available and for now, they never regenerate.
 		foreach (var settlement in Database.settlement_masterList) {
 			settlement.availableCrew.Clear();
-			Game.GenerateRandomCrewMembers(5).ForEach(c => settlement.availableCrew.Add(c));
+			Game.GenerateRandomCrewMembers(Session, 5).ForEach(c => settlement.availableCrew.Add(c));
 		}
 
 		StartQuestSegment(0);

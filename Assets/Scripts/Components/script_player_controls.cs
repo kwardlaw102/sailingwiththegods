@@ -240,7 +240,7 @@ public class script_player_controls : MonoBehaviour
 		if (Session == null) return;
 
 		// debug tool to see where you are in lat long (depends on session)
-		longXLatY = CoordinateUtil.ConvertWebMercatorToWGS1984(CoordinateUtil.Convert_UnityWorld_WebMercator(Session.playerShip.transform.position));
+		(longXLatY, _) = CoordinateUtil.ConvertUnityWorldToWGS1984(Session.playerShip.transform.position);
 
 		// TODO:  Make a game state system instead of all these booleans
 		
@@ -1131,7 +1131,7 @@ public class script_player_controls : MonoBehaviour
 		//We need to get the players latitude to determine the vertical angle of the celestial globe
 		//	--This is the angle of the north celestial pole from the horizon line
 		//	--This is our x Angle of the sphere--0 degrees in Unity is the same as 90 degrees of latitude
-		Vector2 playerLatLong = CoordinateUtil.ConvertWebMercatorToWGS1984(CoordinateUtil.Convert_UnityWorld_WebMercator(transform.position));
+		var (playerLatLong, _) = CoordinateUtil.ConvertUnityWorldToWGS1984(transform.position);
 		Transform celestialSphere = World.skybox_MAIN_CELESTIAL_SPHERE.transform;
 		float latitude = playerLatLong.y;
 
@@ -1780,7 +1780,7 @@ public class script_player_controls : MonoBehaviour
 
 		if (!isPort) {//If this isn't a port--then add a journey log at the end
 					  //Add a new route to the player journey log
-			journey.AddRoute(new PlayerRoute(transform.position, transform.position, ship.totalNumOfDaysTraveled), gameObject.GetComponent<script_player_controls>(), Session.CaptainsLog);
+			journey.AddRoute(new PlayerRoute(transform.position, transform.position, ship.totalNumOfDaysTraveled), this, Session.CaptainsLog);
 			//Update player ghost route
 			UpdatePlayerGhostRouteLineRenderer(Game.IS_NOT_NEW_GAME);
 		}

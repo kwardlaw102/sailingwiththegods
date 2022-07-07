@@ -312,12 +312,15 @@ public class PlayerJourneyLog
 
 	}
 
+
+
 	public string ConvertJourneyLogToCSVText() {
 		string CSVfile = "";
-		//Ship playerShip = playerShipVars.ship;
+
 		//Let's first add the headings to each column
 		CSVfile += this.CSVheader;
 		Debug.Log("Route Count: " + routeLog.Count);
+
 		//first make sure the route isn't empty--if it is, then return a blank file
 		if (routeLog.Count == 0) {
 			CSVfile = "There is no player data to save currently";
@@ -327,51 +330,27 @@ public class PlayerJourneyLog
 			//Loop through each route in the list and respectively the cargo(they will always be the same size so a single for loop index can handle both at once
 			//	Each loop represents a single line in the CSV file
 			for (int i = 0; i < routeLog.Count; i++) {
+
 				//First add the player's unique machine ID--this will be different depending on the Operating System of the user, but will always be a consistent unique ID based on the users hardware(assuming there aren't major hardware changes)
 				CSVfile += SystemInfo.deviceUniqueIdentifier + ",";
-				//we're converting it to Web Mercator before saving it
-				Vector3 mercator_origin = new Vector3((routeLog[i].theRoute[0].x * 1193.920898f) + (526320 - 0), (routeLog[i].theRoute[0].z * 1193.920898f) + (2179480 - 0), routeLog[i].theRoute[0].y);
-				Vector3 mercator_end = new Vector3((routeLog[i].theRoute[1].x * 1193.920898f) + (526320 - 0), (routeLog[i].theRoute[1].z * 1193.920898f) + (2179480 - 0), routeLog[i].theRoute[1].y);
 
-				Vector2 longXlatY_origin = CoordinateUtil.ConvertWebMercatorToWGS1984(new Vector2(mercator_origin.x, mercator_origin.y));
-				Vector2 longXlatY_end = CoordinateUtil.ConvertWebMercatorToWGS1984(new Vector2(mercator_end.x, mercator_end.y));
+				//we're converting route positions from Unity world coordinates to Web Mercator, then to WGS1984 before saving it
+				var (mercator_origin, originHeight) = CoordinateUtil.Convert_UnityWorld_WebMercator(routeLog[i].theRoute[0]);
+				var (mercator_end, endHeight) = CoordinateUtil.Convert_UnityWorld_WebMercator(routeLog[i].theRoute[1]);
+				Vector2 longXlatY_origin = CoordinateUtil.ConvertWebMercatorToWGS1984(mercator_origin);
+				Vector2 longXlatY_end = CoordinateUtil.ConvertWebMercatorToWGS1984(mercator_end);
 
-
-				//TODO: This needs to be cleaned up below--the lat/long bit so it's not wasting resources on a pointless conversion above
-				//TODO -- Seriously this XYZ / XZY business is a frankenstein monster of confusion--I can't even fathom in my current sleep deprived state why I'm having to put the y as a z here. My god. Someone Save me!
-				//If this isn't a player travel route, but a port stop, then we don't need to worry about the conversion of of lat / long--it's already in lat long
-				if (routeLog[i].settlementID != -1) {
-					longXlatY_origin = new Vector2(routeLog[i].theRoute[0].x, routeLog[i].theRoute[0].z);
-					longXlatY_end = Vector2.zero;
-
-				}
-
-				CSVfile += routeLog[i].timeStampInDays + "," + longXlatY_origin.x + "," + longXlatY_origin.y + "," + mercator_origin.z + "," +
-					longXlatY_end.x + "," + longXlatY_end.y + "," + mercator_end.z;
-
-				/*CSVfile += ((routeLog[i].theRoute[0].x * 1193.920898f) + (526320 - 0)) + "," + 
-						   ((routeLog[i].theRoute[0].z * 1193.920898f) + (2179480 - 0)) + "," + 
-						    routeLog[i].theRoute[0].y + "," +
-						    
-						   ((routeLog[i].theRoute[1].x * 1193.920898f) + (526320 - 0)) + "," + 
-						   ((routeLog[i].theRoute[1].z * 1193.920898f) + (2179480 - 0)) + "," + 
-						   routeLog[i].theRoute[1].y;
-				*/
-
-
+				CSVfile += routeLog[i].timeStampInDays + "," + longXlatY_origin.x + "," + longXlatY_origin.y + "," + originHeight + "," +
+					longXlatY_end.x + "," + longXlatY_end.y + "," + endHeight;
 
 				//Add the Resources to the line record
 				CSVfile += cargoLog[i];
 				CSVfile += otherAttributes[i];
 
-
 				//Add a newline if not on last route
 				if (i != (routeLog.Count - 1)) {
 					CSVfile += "\n";
-					//Debug.Log ("Adding a NEW Line?");	
 				}
-
-				//Debug.Log (CSVfile);
 			}
 		}
 
