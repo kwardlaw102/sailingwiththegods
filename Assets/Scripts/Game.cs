@@ -267,7 +267,7 @@ public class Game
 		}
 
 		//	TextAsset saveGame = (TextAsset)Resources.Load("player_save_game", typeof(TextAsset));
-		string[] fileByLine = saveText.Split(splitFile, StringSplitOptions.None);
+		string[] fileByLine = saveText.Split(splitFile, StringSplitOptions.None).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
 		Debug.Log("file://" + Application.persistentDataPath + "/player_save_game.txt");
 		Debug.Log(saveText);
 
@@ -420,7 +420,12 @@ public class Game
 
 		ship.upgradeLevel = int.Parse(playerVars[40]);
 		ship.crewCapacity = int.Parse(playerVars[41]);
-		ship.cargo_capicity_kg = int.Parse(playerVars[42]);
+
+		// support for files that were saved before the captainslog hack was removed - these sometimes don't have a cargo column
+		if(playerVars.Length >= 43) {
+			ship.cargo_capicity_kg = int.Parse(playerVars[42]);
+		}
+
 		session.SetShipModel(ship.upgradeLevel);
 
 		// KDTODO: Once the save game routines are rewritten, need to save the crew available in each city instead of regenerating since this is exploitable
