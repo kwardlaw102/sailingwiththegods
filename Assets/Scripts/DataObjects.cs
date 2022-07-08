@@ -291,12 +291,16 @@ public class PlayerJourneyLog
 		CSVstring += "," + playerShip.currentNavigatorTarget;
 		//Add the list of known settlements in the player's acquired journal settlement knowledge
 		CSVstring += ",";
-		//Debug.Log (CSVstring);
-		foreach (int settlementID in playerShip.playerJournal.knownSettlements)
+
+		foreach (int settlementID in playerShip.playerJournal.knownSettlements) {
 			CSVstring += settlementID + "_";
-		//remove trailing '_' from list of known settlements
-		CSVstring = CSVstring.Remove(CSVstring.Length - 1);
-		//Debug.Log ("After substring: " + CSVstring);
+		}
+		
+		//remove trailing '_' from list of known settlements - only if there were settlements in the list, since it'll remove the comma if there weren't any
+		if (playerShip.playerJournal.knownSettlements.Any()) {
+			CSVstring = CSVstring.Remove(CSVstring.Length - 1);
+		}
+
 		//Add Captains Log: first we need to switch commas in the log to a "|" so it doesn't hurt the delimeters TODO This could be nicer but is fine for now until we get a better database setup
 		//--also need tp scrub newlines
 		string scrubbedLog = captainsLog.Replace(',', '^');

@@ -179,9 +179,7 @@ public class Game
 			//save a backup before Joanna's edits
 			System.IO.File.WriteAllText(Application.persistentDataPath + "/BACKUP-" + fileBaseName, delimitedData);
 			System.IO.File.WriteAllText(Application.persistentDataPath + "/" + fileName, delimitedData);
-			//TODO Temporary addition for joanna to remove the captains log from the server upload
-			string fileToUpload = RemoveCaptainsLogForJoanna(delimitedData);
-			System.IO.File.WriteAllText(Application.persistentDataPath + "/" + fileNameServer, fileToUpload);
+			System.IO.File.WriteAllText(Application.persistentDataPath + "/" + fileNameServer, delimitedData);
 			Debug.Log(Application.persistentDataPath);
 
 			// save a JSON version of the save data to prep for a move to make that the canonical save file - for now only new data is loaded from it, most is still loaded from the CSV
@@ -509,22 +507,6 @@ public class Game
 
 		Debug.Log("Upload successful.");
 		notifications.ShowANotificationMessage("File: '" + localFile + "' successfully uploaded to the server!");
-	}
-
-	//TODO: This is an incredibly specific function that won't be needed later
-	static string RemoveCaptainsLogForJoanna(string file) {
-		string[] splitFile = new string[] { "\r\n", "\r", "\n" };
-		string newFile = "";
-		string[] fileByLine = file.Split(splitFile, StringSplitOptions.None);
-
-		//For each line of the save file (the row)
-		for (int row = 0; row < fileByLine.Length; row++) {
-			int index = fileByLine[row].LastIndexOf(",");
-			newFile += fileByLine[row].Substring(0, index) + "\n";
-		}
-
-		return newFile;
-
 	}
 
 	static bool IsWGS1984InGreece(Vector2 wgs1984) {
