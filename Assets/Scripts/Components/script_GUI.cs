@@ -256,7 +256,7 @@ public class script_GUI : MonoBehaviour
 		}
 
 		//Add a new route to the player journey log as a port entry
-		Session.playerShipVariables.journey.AddRoute(new PlayerRoute(Session.playerShip.transform.position, Vector3.zero, Session.currentSettlement.settlementID, Session.currentSettlement.name, false, Session.playerShipVariables.ship.totalNumOfDaysTraveled), Session.playerShipVariables, Session.CaptainsLog);
+		Session.playerShipVariables.journey.AddRoute(new PlayerRoute(Session.playerShip.transform.position, Session.playerShip.transform.position, Session.currentSettlement.settlementID, Session.currentSettlement.name, false, Session.playerShipVariables.ship.totalNumOfDaysTraveled), Session.playerShipVariables, Session.CaptainsLog);
 		//We should also update the ghost trail with this route otherwise itp roduce an empty 0,0,0 position later
 		Session.playerShipVariables.UpdatePlayerGhostRouteLineRenderer(Game.IS_NOT_NEW_GAME);
 
