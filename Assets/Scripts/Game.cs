@@ -391,10 +391,10 @@ public class Game
 			ship.currentNavigatorTarget = targetID;
 			//change location of beacon
 			Vector3 location = Vector3.zero;
-			for (int x = 0; x < World.settlement_masterList_parent.transform.childCount; x++)
-				if (World.settlement_masterList_parent.transform.GetChild(x).GetComponent<SettlementComponent>().thisSettlement.settlementID == targetID)
-					location = World.settlement_masterList_parent.transform.GetChild(x).position;
-			session.ActivateNavigatorBeacon(World.navigatorBeacon, location);
+			for (int x = 0; x < world.settlement_masterList_parent.transform.childCount; x++)
+				if (world.settlement_masterList_parent.transform.GetChild(x).GetComponent<SettlementComponent>().thisSettlement.settlementID == targetID)
+					location = world.settlement_masterList_parent.transform.GetChild(x).position;
+			session.ActivateNavigatorBeacon(world.navigatorBeacon, location);
 		}
 		else {
 			ship.currentNavigatorTarget = -1;

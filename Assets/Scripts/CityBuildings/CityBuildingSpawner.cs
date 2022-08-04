@@ -16,8 +16,8 @@ public class CityBuildingSpawner : MonoBehaviour
 	[Serializable]
 	class BuildingOption
 	{
-		public GameObject Prefab;
-		public float Weight;
+		public GameObject Prefab = null;
+		public float Weight = 0;
 	}
 
 	[SerializeField] BuildingOption[] HousePrefabs = null;
