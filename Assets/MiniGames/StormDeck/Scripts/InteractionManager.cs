@@ -16,15 +16,15 @@ public class InteractionManager : MonoBehaviour
 		FPSInteractable curHoveredInteractable = GetHoveredInteractable(cursorLocation);
 		if (hoveredInteractable != curHoveredInteractable) {
 			if (curHoveredInteractable != null) {
-				curHoveredInteractable.OnStartHover();
+				curHoveredInteractable.OnHover.Invoke();
 			}
 			else {
-				hoveredInteractable.OnStopHover();
+				hoveredInteractable.OnStopHover.Invoke();
 			}
 			hoveredInteractable = curHoveredInteractable;
 		}
 		if (hoveredInteractable != null && Input.GetKeyDown(interactKey)) {
-			hoveredInteractable.OnInteract();
+			hoveredInteractable.OnInteract.Invoke();
 		}
     }
 
