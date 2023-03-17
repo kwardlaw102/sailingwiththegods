@@ -10,7 +10,8 @@ public class DialogueManager : MonoBehaviour
 	private Coroutine activeCoroutine;
 
 	public float fadeInSeconds = 1f;
-	public float visibleSeconds = 1f;
+	public float visibleSecondsBase = 2f;
+	public float visibleSecondsPerCharacter = 0.01f;
 	public float fadeOutSeconds = 1f;
 
 	private static DialogueManager instance;
@@ -35,6 +36,7 @@ public class DialogueManager : MonoBehaviour
 		if (activeCoroutine != null) {
 			StopCoroutine(activeCoroutine);
 		}
+		float visibleSeconds = visibleSecondsBase + text.Length * visibleSecondsPerCharacter;
 		activeCoroutine = StartCoroutine(FadeCoroutine(fadeInSeconds, visibleSeconds, fadeOutSeconds));
 	}
 
