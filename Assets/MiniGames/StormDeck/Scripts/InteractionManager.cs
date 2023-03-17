@@ -9,6 +9,7 @@ public class InteractionManager : MonoBehaviour
 	private Vector3 cursorLocation;
 	public KeyCode interactKey = KeyCode.E;
 	private FPSInteractable hoveredInteractable;
+	public TMPro.TextMeshProUGUI interactionPrompt;
 
 	void Update()
     {
@@ -16,9 +17,11 @@ public class InteractionManager : MonoBehaviour
 		FPSInteractable curHoveredInteractable = GetHoveredInteractable(cursorLocation);
 		if (hoveredInteractable != curHoveredInteractable) {
 			if (curHoveredInteractable != null) {
+				ShowInteractionPrompt(curHoveredInteractable.GetInteractionPrompt());
 				curHoveredInteractable.OnHover.Invoke();
 			}
 			else {
+				HideInteractionPrompt();
 				hoveredInteractable.OnStopHover.Invoke();
 			}
 			hoveredInteractable = curHoveredInteractable;
@@ -33,5 +36,16 @@ public class InteractionManager : MonoBehaviour
 		bool foundObject = Physics.Raycast(interactionRay, out RaycastHit hitInfo, interactionDistance, interactableLayers, QueryTriggerInteraction.Collide);
 		if (!foundObject) return null;
 		return hitInfo.collider.transform.GetComponent<FPSInteractable>();
+	}
+
+	private void ShowInteractionPrompt(string prompt) {
+		interactionPrompt.text = "Press " + interactKey.ToString() + " to " + prompt;
+		interactionPrompt.enabled = true;
+		//Debug.Log("Press " + interactKey.ToString() + " to " + prompt);
+	}
+
+	private void HideInteractionPrompt() {
+		//Debug.Log("Hide interaction prompt");
+		interactionPrompt.enabled = false;
 	}
 }
