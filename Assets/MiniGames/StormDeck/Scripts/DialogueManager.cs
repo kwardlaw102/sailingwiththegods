@@ -23,7 +23,6 @@ public class DialogueManager : MonoBehaviour
 
 	private void Start() {
 		HideText();
-		DisplayText("Hello!");
 	}
 
 	public static void DisplayText(string text) {
