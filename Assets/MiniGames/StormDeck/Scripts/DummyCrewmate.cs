@@ -6,7 +6,7 @@ using TMPro;
 public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 {
 	public string crewmateName = "Crewmate";
-	public string crewmateType = "Sailor";
+	public CrewType crewmateType = CrewType.Sailor;
 	[TextArea(1,10)]
 	public string nameplateFormat = "{0}\n-{1}-";
 	public TextMeshProUGUI nameplate;
@@ -38,4 +38,9 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 		return "speak with " + crewmateName;
 	}
 
+	public void SetNameAndType(string name, CrewType type) {
+		crewmateName = name;
+		crewmateType = type;
+		UpdateNameplate();
+	}
 }

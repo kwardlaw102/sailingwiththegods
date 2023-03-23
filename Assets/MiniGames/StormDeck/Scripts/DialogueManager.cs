@@ -53,7 +53,6 @@ public class DialogueManager : MonoBehaviour
 		// fade in
 		while (true) {
 			textColor.a += Time.deltaTime / fadeInSeconds;
-			Debug.Log(textColor.a);
 			if (textColor.a > 1) {
 				textColor.a = 1;
 				textComponent.color = textColor;
@@ -67,7 +66,6 @@ public class DialogueManager : MonoBehaviour
 		// remain visible
 		float elapsedTime = 0f;
 		while (elapsedTime < visibleSeconds) {
-			Debug.Log(elapsedTime);
 			elapsedTime += Time.deltaTime;
 			yield return new WaitForEndOfFrame();
 		}
@@ -75,7 +73,6 @@ public class DialogueManager : MonoBehaviour
 		// fade out
 		while (true) {
 			textColor.a -= Time.deltaTime / fadeInSeconds;
-			Debug.Log(textColor.a);
 			if (textColor.a < 0) {
 				textColor.a = 0;
 				textComponent.color = textColor;
