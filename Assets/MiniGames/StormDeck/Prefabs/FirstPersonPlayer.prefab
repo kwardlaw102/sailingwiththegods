@@ -61,7 +61,7 @@ Camera:
   field of view: 60
   orthographic: 0
   orthographic size: 5
-  m_Depth: 0
+  m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -111,7 +111,6 @@ GameObject:
   - component: {fileID: 6987743296300734825}
   - component: {fileID: 2807562705145405747}
   - component: {fileID: 1366691282}
-  - component: {fileID: 1366691281}
   m_Layer: 0
   m_Name: FirstPersonPlayer
   m_TagString: Untagged
@@ -168,23 +167,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1366691281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3466732701557856381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c744bc5ed731c418474d1a045c478b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionDistance: 2
-  interactableLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  interactKey: 101
 --- !u!1 &6599306557708626189
 GameObject:
   m_ObjectHideFlags: 0

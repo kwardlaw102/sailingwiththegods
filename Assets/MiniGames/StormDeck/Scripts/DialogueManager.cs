@@ -5,6 +5,7 @@ using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
+	[SerializeField]
 	private TextMeshProUGUI textComponent;
 	private Color textColor;
 	private Coroutine activeCoroutine;
@@ -18,7 +19,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Awake()
     {
-		textComponent = GetComponent<TextMeshProUGUI>();
+		//textComponent = GetComponent<TextMeshProUGUI>();
 		instance = this;
 	}
 
@@ -31,6 +32,9 @@ public class DialogueManager : MonoBehaviour
 	}
 
 	private void DisplayTextHelper(string text) {
+		if (text == null) {
+			text = "null";
+		}
 		HideText();
 		textComponent.text = text;
 		if (activeCoroutine != null) {

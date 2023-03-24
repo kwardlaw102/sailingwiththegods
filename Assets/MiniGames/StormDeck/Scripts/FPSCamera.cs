@@ -13,12 +13,10 @@ public class FPSCamera : MonoBehaviour
 	public float horizLookSensitivity = 1f;
 	public bool invertYAxis = false;
 
-	// Start is called before the first frame update
-	private void Start() {
+	private void OnEnable() {
 		Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     private void Update() {
 		UpdatePitch();
 		if (character != null) {
@@ -38,5 +36,9 @@ public class FPSCamera : MonoBehaviour
 		cameraPitch += mouseDeltaY * Time.deltaTime * ROTATION_SCALE * vertLookSensitivity * invertY;
 		cameraPitch = Mathf.Clamp(cameraPitch, -MAX_CAMERA_PITCH, MAX_CAMERA_PITCH);
 		transform.localRotation = Quaternion.AngleAxis(cameraPitch, Vector3.left);
+	}
+
+	private void OnDisable() {
+		Cursor.lockState = CursorLockMode.None;
 	}
 }

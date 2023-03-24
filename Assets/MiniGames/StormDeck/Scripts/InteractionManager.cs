@@ -11,24 +11,22 @@ public class InteractionManager : MonoBehaviour
 	private FPSInteractable hoveredInteractable;
 	public TMPro.TextMeshProUGUI interactionPrompt;
 
-	void Update()
-    {
+	private bool interactionPromptIsShowing = false;
+
+	void Update() {
 		cursorLocation = new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight) / 2;
 		FPSInteractable curHoveredInteractable = GetHoveredInteractable(cursorLocation);
-		if (hoveredInteractable != curHoveredInteractable) {
-			if (curHoveredInteractable != null) {
-				ShowInteractionPrompt(curHoveredInteractable.GetInteractionPrompt());
-				curHoveredInteractable.OnHover.Invoke();
-			}
-			else {
-				HideInteractionPrompt();
-				hoveredInteractable.OnStopHover.Invoke();
-			}
-			hoveredInteractable = curHoveredInteractable;
+
+		if (hoveredInteractable != curHoveredInteractable && curHoveredInteractable != null) {
+			ShowInteractionPrompt(curHoveredInteractable.GetInteractionPrompt());
 		}
-		if (hoveredInteractable != null && Input.GetKeyDown(interactKey)) {
-			hoveredInteractable.OnInteract.Invoke();
+		if (curHoveredInteractable == null && interactionPromptIsShowing) {
+			HideInteractionPrompt();
 		}
+		if (curHoveredInteractable != null && Input.GetKeyDown(interactKey)) {
+			curHoveredInteractable.OnInteract.Invoke();
+		}
+		hoveredInteractable = curHoveredInteractable;
     }
 
 	FPSInteractable GetHoveredInteractable(Vector3 cursorPosition) {
@@ -41,11 +39,11 @@ public class InteractionManager : MonoBehaviour
 	private void ShowInteractionPrompt(string prompt) {
 		interactionPrompt.text = "Press " + interactKey.ToString() + " to " + prompt;
 		interactionPrompt.enabled = true;
-		//Debug.Log("Press " + interactKey.ToString() + " to " + prompt);
+		interactionPromptIsShowing = true;
 	}
 
 	private void HideInteractionPrompt() {
-		//Debug.Log("Hide interaction prompt");
 		interactionPrompt.enabled = false;
+		interactionPromptIsShowing = false;
 	}
 }
