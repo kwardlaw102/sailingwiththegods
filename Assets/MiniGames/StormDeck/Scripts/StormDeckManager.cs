@@ -34,7 +34,6 @@ public class StormDeckManager : MonoBehaviour
 	private void SacrificeCrewMember(IList<CrewMember> crewList, CrewMember c) {
 		Destroy(crewObjects[crewList.IndexOf(c)]);
 		crewList.Remove(c);
-		//Debug.Log(c.name + " has been thrown overboard.");
 		DialogueManager.DisplayText(c.name + " has been thrown overboard.");
 	}
 

@@ -10,7 +10,6 @@ public class InteractionManager : MonoBehaviour
 	public KeyCode interactKey = KeyCode.E;
 	private FPSInteractable hoveredInteractable;
 	public TMPro.TextMeshProUGUI interactionPrompt;
-	public int hello;
 
 	private bool interactionPromptIsShowing = false;
 
