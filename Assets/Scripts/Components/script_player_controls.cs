@@ -197,6 +197,10 @@ public class script_player_controls : MonoBehaviour
             {
 				MiniGames.EnterScene("TavernaMenu");
             }
+			if (Input.GetKeyUp(KeyCode.V)) 
+			{
+				MiniGames.EnterScene("StormDeckGame");
+			}
 			if (Input.GetKeyUp(KeyCode.M)) 
 			{
 				MiniGames.Exit();

@@ -1,11 +1,9 @@
 fileFormatVersion: 2
-guid: ada7452cedbe59148b19ad261c7f1707
+guid: d563413bca6256a44b97a20239cdf6b7
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences:
-  - crewPrefab: {fileID: 1229527810747200175, guid: 395c7e92029c5ed44af1c703cd4fd434,
-      type: 3}
+  defaultReferences: []
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
