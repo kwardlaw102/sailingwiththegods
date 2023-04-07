@@ -41,4 +41,9 @@ public class FPSCamera : MonoBehaviour
 	private void OnDisable() {
 		Cursor.lockState = CursorLockMode.None;
 	}
+
+	private void OnDrawGizmos() {
+		Gizmos.color = Color.green;
+		Gizmos.DrawRay(transform.position, transform.forward);
+	}
 }
