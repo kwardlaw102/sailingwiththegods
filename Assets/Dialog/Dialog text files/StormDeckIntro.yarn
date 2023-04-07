@@ -1,0 +1,11 @@
+title: StartStormDeck
+tags: 
+colorID: 0
+position: 430,266
+---
+<<reset DialogScreen>>
+<<setconvotitle DialogScreen A_Storm_Approaches!>>
+Your journey has been halted by the onset of a ferocious storm. Such a calamity could have only been caused by the anger of the gods.
+
+Consult your crew and perform the appropriate rituals to appease the gods' wrath, else you will see your vessel crushed by divine fury.
+===

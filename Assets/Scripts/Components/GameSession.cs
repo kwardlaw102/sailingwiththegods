@@ -146,9 +146,9 @@ public class GameSession
 	void DebugHotkeys() {
 		// uncomment to use debug hotkeys
 #if UNITY_EDITOR
-		if(Input.GetKeyUp(KeyCode.E)) {
-			UI.Show<InfoScreen, InfoScreenModel>(new InfoScreenModel { Message = " Panda" });
-		}
+		//if(Input.GetKeyUp(KeyCode.E)) {
+		//	UI.Show<InfoScreen, InfoScreenModel>(new InfoScreenModel { Message = " Panda" });
+		//}
 
 		//if(Input.GetKeyUp(KeyCode.E)) {
 		//	var storm = new StormAtSea();
