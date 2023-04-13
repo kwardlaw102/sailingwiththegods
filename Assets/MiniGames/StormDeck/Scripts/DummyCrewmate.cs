@@ -56,24 +56,15 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 		DialogScreen dialogScreen = UI.Show<DialogScreen>();
 		SetDialogVariables(dialogScreen);
 		dialogScreen.StartDialog("StartStormDeck", "darken"); // FIXME: if this errors, the player's controls will not re-enable
-		dialogScreen.Storage.SetValue("crewName", "New name");
 		StartCoroutine(WaitForDialogEnd(dialogScreen));
 	}
 
 	private void SetDialogVariables(DialogScreen dialogScreen) {
-		List<InMemoryVariableStorage.DefaultVariable> variableList = new List<InMemoryVariableStorage.DefaultVariable>();
-		AddVariable(variableList, "crewName", crewmateName, Yarn.Value.Type.String);
-		AddVariable(variableList, "crewType", crewmateType.ToString(), Yarn.Value.Type.String);
+		YarnVariableList variableList = new YarnVariableList();
+		variableList.Add("crewName", crewmateName);
+		variableList.Add("crewType", crewmateType.ToString());
 		dialogScreen.Storage.defaultVariables = variableList.ToArray();
 		dialogScreen.Storage.ResetToDefaults();
-	}
-
-	private void AddVariable(List<InMemoryVariableStorage.DefaultVariable> variableList, string name, string value, Yarn.Value.Type type) {
-		InMemoryVariableStorage.DefaultVariable newVariable = new InMemoryVariableStorage.DefaultVariable();
-		newVariable.name = name;
-		newVariable.value = value;
-		newVariable.type = type;
-		variableList.Add(newVariable);
 	}
 
 	IEnumerator WaitForDialogEnd(DialogScreen dialogScreen) {
