@@ -13,11 +13,7 @@ public class FPSCamera : MonoBehaviour
 	public float horizLookSensitivity = 1f;
 	public bool invertYAxis = false;
 
-	private void OnEnable() {
-		Cursor.lockState = CursorLockMode.Locked;
-    }
-
-    private void Update() {
+	private void Update() {
 		UpdatePitch();
 		if (character != null) {
 			UpdateCharacterRotation();
@@ -38,6 +34,9 @@ public class FPSCamera : MonoBehaviour
 		transform.localRotation = Quaternion.AngleAxis(cameraPitch, Vector3.left);
 	}
 
+	private void OnEnable() {
+		Cursor.lockState = CursorLockMode.Locked;
+	}
 	private void OnDisable() {
 		Cursor.lockState = CursorLockMode.None;
 	}

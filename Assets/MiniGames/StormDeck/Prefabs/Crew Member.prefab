@@ -321,11 +321,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crewmateName: Crewmate
-  crewmateType: Sailor
+  crewmateType: 0
   nameplateFormat: '<b>{0}</b>
 
     -{1}-'
   nameplate: {fileID: 1835303336}
+  speakThroughDebug: 0
 --- !u!1 &1229527811694636273
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,8 +477,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1765342730}
-        m_MethodName: Say
-        m_Mode: 5
+        m_MethodName: StartDialogue
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

@@ -1,11 +1,38 @@
 title: StartStormDeck
 tags: 
-colorID: 0
-position: 430,266
+colorID: 8
+position: 99,197
 ---
 <<reset DialogScreen>>
 <<setconvotitle DialogScreen A_Storm_Approaches!>>
-Your journey has been halted by the onset of a ferocious storm. Such a calamity could have only been caused by the anger of the gods.
+<<setpartnername DialogScreen {$crewName}>>
 
-Consult your crew and perform the appropriate rituals to appease the gods' wrath, else you will see your vessel crushed by divine fury.
+<<setspeaker DialogScreen other>>
+<<setend DialogScreen>>
+<<if $crewType is "Warrior">>
+    Yes, captain?
+<<elseif $crewType is "Royalty">>
+    How can I help you?
+<<else>>
+    Hello, captain.
+<<endif>>
+
+[[Leave |goodbye]]
+===
+title: goodbye
+tags: 
+colorID: 1
+position: 635,199
+---
+<<setspeaker DialogScreen Jason>>
+I need to go.
+
+<<setspeaker DialogScreen other>>
+<<if $crewType == "Warrior">>
+    I stand ready.
+<<elseif $crewType == "Royalty">>
+    Goodbye.
+<<else>>
+    Bye.
+<<endif>>
 ===

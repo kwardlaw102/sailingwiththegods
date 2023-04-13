@@ -698,6 +698,7 @@ MonoBehaviour:
   - {fileID: 570991719}
   fpsCamera: {fileID: 603415043}
   fpsMovement: {fileID: 1862770735}
+  eventUI: {fileID: 0}
   eventStartMessage1: Your journey has been halted by the onset of a ferocious storm.
     Such a calamity could only be caused by the anger of the gods.
   eventStartMessage2: ' Consult your crew and perform the appropriate rituals to

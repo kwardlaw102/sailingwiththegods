@@ -5,7 +5,6 @@ using UnityEngine;
 public class StormDeckManager : MonoBehaviour
 {
 	private List<GameObject> crewObjects = new List<GameObject>();
-	private UISystem UI => Globals.UI;
 
 	[Header("Minigame Info")]
 	public MiniGameInfoScreen minigameInfoScreen;
@@ -18,6 +17,7 @@ public class StormDeckManager : MonoBehaviour
 	public List<Transform> spawnLocations;
 	public FPSCamera fpsCamera;
 	public FPSMovement fpsMovement;
+	public Canvas eventUI;
 
 	private IList<CrewMember> crewRoster;
 	int malefactorNdx;
@@ -29,7 +29,13 @@ public class StormDeckManager : MonoBehaviour
 	public string eventStartMessage2;
 
 	public List<string> malefactorFlavorText;
-	public List<string> historicalQuotes;	
+	public List<string> historicalQuotes;
+
+	public static StormDeckManager instance;
+
+	private void Awake() {
+		instance = this;
+	}
 
 	void Start()
     {
@@ -47,7 +53,7 @@ public class StormDeckManager : MonoBehaviour
 
 	private IEnumerator UnlockCursorForMenuCoroutine() {
 		DisableControls();
-		while (minigameInfoScreen.gameObject.activeSelf) {
+		while (minigameInfoScreen.gameObject.activeInHierarchy) {
 			yield return new WaitForEndOfFrame();
 		}
 		EnableControls();
@@ -144,14 +150,22 @@ public class StormDeckManager : MonoBehaviour
 		return Random.Range(0, crewRoster.Count);
 	}
 
-	private void DisableControls() {
+	public void DisableControls() {
 		fpsCamera.enabled = false;
 		fpsMovement.enabled = false;
 
 	}
 
-	private void EnableControls() {
+	public void EnableControls() {
 		fpsCamera.enabled = true;
 		fpsMovement.enabled = true;
+	}
+
+	public void HideUI() {
+		eventUI.enabled = false;
+	}
+
+	public void ShowUI() {
+		eventUI.enabled = true;
 	}
 }
