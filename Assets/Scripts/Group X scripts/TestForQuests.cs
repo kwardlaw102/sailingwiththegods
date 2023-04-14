@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -128,7 +128,7 @@ public class TestForQuests : MonoBehaviour
         SacrificeMenu.SetActive(true);
         cursor.SetActive(true);
         animalsList.text = string.Join("\n", animals.animals);
-        player.canMove = false;
+        //player.canMove = false;
 
     }
 
@@ -136,7 +136,7 @@ public class TestForQuests : MonoBehaviour
         SacrificeMenu.SetActive(false);
         cursor.SetActive(false);
         animalsList.text = null;
-        player.canMove = true;
+        //player.canMove = true;
         Warning.SetActive(true);
         MenuUp = true;
         if (!Right) {
