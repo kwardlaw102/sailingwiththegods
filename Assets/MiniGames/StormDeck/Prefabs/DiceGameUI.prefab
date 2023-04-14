@@ -2000,7 +2000,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 2ead7323885963646ad2969d3b6635e7, type: 3}
-  m_Type: 1
+  m_Type: 2
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2022,6 +2022,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   diceMinigame: {fileID: 0}
+  onRitualEnd:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3099868017778522465
 GameObject:
   m_ObjectHideFlags: 0

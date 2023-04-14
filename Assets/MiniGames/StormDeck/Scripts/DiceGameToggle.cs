@@ -2,12 +2,14 @@ using NaughtyAttributes.Test;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class DiceGameToggle : MonoBehaviour
 {
 	private bool isEnabled;
 	public GameObject diceMinigame;
 	private static DiceGameToggle instance;
+	public UnityEvent onRitualEnd;
     // Start is called before the first frame update
 
 	private void Awake() 
@@ -30,8 +32,9 @@ public class DiceGameToggle : MonoBehaviour
 		else
 			diceMinigame.SetActive(false);
     }
-	public static void StartRitual() {
+	public static DiceGameToggle StartRitual() {
 		instance.ToggleDiceGame();
+		return instance;
 	}
 
 	public void ToggleDiceGame() {
