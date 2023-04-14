@@ -42,7 +42,9 @@ public class TestForQuests : MonoBehaviour
     // Update is called once per frame
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.S)) {
+       
+    }
+    public static void Storm() {
             MenuUp = !MenuUp;
 
             text = Random.Range(1, 5);
@@ -67,7 +69,6 @@ public class TestForQuests : MonoBehaviour
                     break;
 
             }
-        }
 
         if (MenuUp) {
             Warning.SetActive(true);
@@ -88,7 +89,7 @@ public class TestForQuests : MonoBehaviour
             Warning.SetActive(false);
         }
 
-        
+
 
         if (Ritual == Problem.Sacrifice) {
             Sacrifice();
