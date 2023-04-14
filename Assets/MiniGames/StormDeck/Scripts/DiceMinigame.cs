@@ -20,6 +20,16 @@ public class DiceMinigame : MonoBehaviour
 		this.gameObject.GetComponent<Text>().text = "Roll numbers that add up to " + targetValue;
     }
 
+	public void Reset() 
+	{
+		rolls = 0;
+		targetValue = Random.Range(5, 30);
+		while (targetValue == 6 || targetValue == 29) {
+			targetValue = Random.Range(5, 30);
+		}
+		this.gameObject.GetComponent<Text>().text = "Roll numbers that add up to " + targetValue;
+	}
+
 	public void DicesRolled() 
 	{
 		rolls++;

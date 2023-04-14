@@ -106,56 +106,58 @@ public class TestForQuests : MonoBehaviour
 		}
 	}
 	#region Sacc
-	void Sacrifice() {
-		if (SacrificeUp) {
-			if (Input.GetButtonDown("Vertical")) {
-				CodeSelect -= (int)Input.GetAxisRaw("Vertical");
-				Vector3 Add = new Vector3(0, addValue * (int)Input.GetAxisRaw("Vertical"), 0);
-				cursor.transform.position = cursor.transform.position + Add;
-			}
 
-			if (Input.GetKeyDown(KeyCode.Z)) {
-				if (animals.animals[CodeSelect] == theSacrifice) {
-					CloseSacrifice(true);
-				}
-				else {
-					CloseSacrifice(false);
-				}
-				animals.animals.RemoveAt(CodeSelect);
-				animalsList.text = string.Join("\n", animals.animals);
+	void Sacrifice()
+    {
+        if(SacrificeUp) {
+            if (Input.GetButtonDown("Vertical")) {
+                CodeSelect -= (int)Input.GetAxisRaw("Vertical");
+                Vector3 Add = new Vector3(0, addValue * (int)Input.GetAxisRaw("Vertical"), 0);
+                cursor.transform.position = cursor.transform.position + Add;
+            }
 
-			}
+            if(Input.GetKeyDown(KeyCode.Z)) {
+                if (animals.animals[CodeSelect] == theSacrifice) {
+                    CloseSacrifice(true);
+                }
+                else {
+                    CloseSacrifice(false);
+                }
+                animals.animals.RemoveAt(CodeSelect);
+                animalsList.text = string.Join("\n", animals.animals);
+                
+            }
 
-			if (CodeSelect > animals.animals.Count - 1) { CodeSelect = 0; cursor.transform.position = og.transform.position; }
+            if (CodeSelect > animals.animals.Count - 1) { CodeSelect = 0; cursor.transform.position = og.transform.position; }
 
-		}
-	}
+        }
+    }
 
-	public void GiveSacrifice() {
-		Ritual = Problem.Sacrifice;
-		SacrificeUp = true;
-		theSacrifice = animals.animals[Random.Range(1, animals.animals.Count)];
-		SacrificeMenu.SetActive(true);
-		cursor.SetActive(true);
-		animalsList.text = string.Join("\n", animals.animals);
-		//player.canMove = false;
+    public void GiveSacrifice() {
+        Ritual = Problem.Sacrifice;
+        SacrificeUp = true;
+        theSacrifice = animals.animals[Random.Range(1, animals.animals.Count)];
+        SacrificeMenu.SetActive(true);
+        cursor.SetActive(true);
+        animalsList.text = string.Join("\n", animals.animals);
+        //player.canMove = false;
 
-	}
+    }
 
-	public void CloseSacrifice(bool Right) {
-		SacrificeMenu.SetActive(false);
-		cursor.SetActive(false);
-		animalsList.text = null;
-		//player.canMove = true;
-		Warning.SetActive(true);
-		MenuUp = true;
-		if (!Right) {
-			PromptText.text = "Wrong animal!";
-		}
-		else {
-			PromptText.text = "Correct animal!";
-		}
-	}
+    public void CloseSacrifice(bool Right) {
+        SacrificeMenu.SetActive(false);
+        cursor.SetActive(false);
+        animalsList.text = null;
+        //player.canMove = true;
+        Warning.SetActive(true);
+        MenuUp = true;
+        if (!Right) {
+            PromptText.text = "Wrong animal!";
+        } else {
+            PromptText.text = "Correct animal!";
+        }
+    }
+
 	#endregion
 
 	void Magic() {
