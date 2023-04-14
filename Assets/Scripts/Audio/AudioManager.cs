@@ -8,9 +8,15 @@ public class AudioManager : MonoBehaviour
 {
 	[SerializeField] private Sound[] sounds = null;
 	//[SerializeField] private static AudioManager instance = null;
-	[SerializeField] private AudioMixerGroup mixer = null;
+	[SerializeField] private AudioMixerGroup mixerGroup = null;
+	[SerializeField] private AudioMixer mixer;
+
+	private const float MUTE_VOLUME_DB = -80f;
+	private const float NORMAL_VOLUME_DB = 0f;
 
 	void Awake() {
+		Globals.Register(this);
+
 		///////////////////////////////////////////////////////////////////////////
 		///To make sure that the game doesn't create two audio managers by mistake.
 		/*if(instance == null) {
@@ -30,7 +36,7 @@ public class AudioManager : MonoBehaviour
 		//This foreach loop is for adding all the variables to the audio source
 		foreach (Sound s in sounds) {
 			s.source = gameObject.AddComponent<AudioSource>();
-			s.source.outputAudioMixerGroup = mixer; //this is to output the audio to the mixer
+			s.source.outputAudioMixerGroup = mixerGroup; //this is to output the audio to the mixer
 
 			s.source.clip = s.clip;
 			s.source.volume = s.volume;
@@ -58,5 +64,17 @@ public class AudioManager : MonoBehaviour
 			Debug.LogWarning("Sound:  " + name + " not found!");
 			return;
 		}
+	}
+
+	public void MuteMainGameAudio() {
+		Debug.Log("Mute main game");
+		mixer.SetFloat("musicVolume", MUTE_VOLUME_DB);
+		mixer.SetFloat("backgroundVolume", MUTE_VOLUME_DB);
+	}
+
+	public void UnmuteMainGameAudio() {
+		Debug.Log("Unmute main game");
+		mixer.SetFloat("musicVolume", NORMAL_VOLUME_DB);
+		mixer.SetFloat("backgroundVolume", NORMAL_VOLUME_DB);
 	}
 }

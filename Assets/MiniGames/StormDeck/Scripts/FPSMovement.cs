@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class FPSMovement : MonoBehaviour
 {
 	public KeyCode FORWARD_KEY = KeyCode.W;
@@ -10,9 +11,15 @@ public class FPSMovement : MonoBehaviour
 	public KeyCode RIGHT_KEY = KeyCode.D;
 	public float moveSpeed = 3f;
 
-    private void Update() {
+	private Rigidbody rb;
+
+	private void Awake() {
+		rb = GetComponent<Rigidbody>();
+	}
+
+	private void FixedUpdate() {
 		Vector3 inputDirection = GetInputDirection();
-		transform.position += GetMovementDirection(inputDirection) * moveSpeed * Time.deltaTime;
+		rb.velocity = GetMovementDirection(inputDirection) * moveSpeed + Vector3.up * rb.velocity.y;
     }
 
 	private Vector3 GetMovementDirection(Vector3 inputDirection) {

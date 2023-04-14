@@ -72,7 +72,9 @@ MonoBehaviour:
     soundIsPlaying: 0
     onAwake: 0
     source: {fileID: 0}
-  mixer: {fileID: -4416321429550571014, guid: c8043255cc41cc34f8d806d19e62018a, type: 2}
+  mixerGroup: {fileID: 4464424677660615808, guid: c8043255cc41cc34f8d806d19e62018a,
+    type: 2}
+  mixer: {fileID: 24100000, guid: c8043255cc41cc34f8d806d19e62018a, type: 2}
 --- !u!114 &4548287859531078574
 MonoBehaviour:
   m_ObjectHideFlags: 0

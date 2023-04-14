@@ -6,7 +6,7 @@ using TMPro;
 public class DialogueManager : MonoBehaviour
 {
 	[SerializeField]
-	private TextMeshProUGUI textComponent;
+	private TextMeshProUGUI textComponent = null;
 	private Color textColor;
 	private Coroutine activeCoroutine;
 

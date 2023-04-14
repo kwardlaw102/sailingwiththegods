@@ -8109,6 +8109,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 80.8
       objectReference: {fileID: 0}
+    - target: {fileID: 3143309550540709964, guid: 279925e90389e7c4e8e585184a0486dc,
+        type: 3}
+      propertyPath: sprites.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3143309550540709964, guid: 279925e90389e7c4e8e585184a0486dc,
+        type: 3}
+      propertyPath: sprites.Array.data[2].name
+      value: darken
+      objectReference: {fileID: 0}
     - target: {fileID: 6868725445802579736, guid: 279925e90389e7c4e8e585184a0486dc,
         type: 3}
       propertyPath: m_AnchorMax.x
