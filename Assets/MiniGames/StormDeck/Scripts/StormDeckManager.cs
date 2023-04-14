@@ -168,11 +168,4 @@ public class StormDeckManager : MonoBehaviour
 	public void ShowUI() {
 		eventUI.enabled = true;
 	}
-
-	// Player attempts to sail away after they have performed all of their rituals
-	public void EndMinigame() {
-		if (Random.Range(0, 100) > 100) {
-
-		}
-	}
 }
