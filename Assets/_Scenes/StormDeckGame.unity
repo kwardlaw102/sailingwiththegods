@@ -2438,7 +2438,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1765342730, guid: 395c7e92029c5ed44af1c703cd4fd434, type: 3}
       propertyPath: crewmateType
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1765342730, guid: 395c7e92029c5ed44af1c703cd4fd434, type: 3}
       propertyPath: crewmateName
@@ -2471,7 +2471,7 @@ PrefabInstance:
     - target: {fileID: 1229527810747200172, guid: 395c7e92029c5ed44af1c703cd4fd434,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 31.19
+      value: 29.659
       objectReference: {fileID: 0}
     - target: {fileID: 1229527810747200172, guid: 395c7e92029c5ed44af1c703cd4fd434,
         type: 3}
@@ -2481,7 +2481,7 @@ PrefabInstance:
     - target: {fileID: 1229527810747200172, guid: 395c7e92029c5ed44af1c703cd4fd434,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 5.92
+      value: 5.985
       objectReference: {fileID: 0}
     - target: {fileID: 1229527810747200172, guid: 395c7e92029c5ed44af1c703cd4fd434,
         type: 3}
@@ -2536,6 +2536,16 @@ PrefabInstance:
     - target: {fileID: 1229527810747200175, guid: 395c7e92029c5ed44af1c703cd4fd434,
         type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229527811717609222, guid: 395c7e92029c5ed44af1c703cd4fd434,
+        type: 3}
+      propertyPath: OnHover.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1229527811717609222, guid: 395c7e92029c5ed44af1c703cd4fd434,
+        type: 3}
+      propertyPath: OnStopHover.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1229527811717609222, guid: 395c7e92029c5ed44af1c703cd4fd434,
@@ -2576,7 +2586,7 @@ PrefabInstance:
     - target: {fileID: 1229527811717609222, guid: 395c7e92029c5ed44af1c703cd4fd434,
         type: 3}
       propertyPath: OnInteract.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: Say
+      value: StartDialogue
       objectReference: {fileID: 0}
     - target: {fileID: 1229527811717609222, guid: 395c7e92029c5ed44af1c703cd4fd434,
         type: 3}

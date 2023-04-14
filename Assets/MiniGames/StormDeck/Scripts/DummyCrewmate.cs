@@ -6,6 +6,7 @@ using Yarn.Unity;
 public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 {
 	private UISystem UI => Globals.UI;
+	private DialogScreen dialogScreen;
 
 	public string crewmateName = "Crewmate";
 	public CrewType crewmateType = CrewType.Sailor;
@@ -53,13 +54,13 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 			return;
 		}
 		StormDeckManager.instance.DisableControls();
-		DialogScreen dialogScreen = UI.Show<DialogScreen>();
-		SetDialogVariables(dialogScreen);
+		dialogScreen = UI.Show<DialogScreen>();
+		SetDialogVariables();
 		dialogScreen.StartDialog("StartStormDeck", "darken"); // FIXME: if this errors, the player's controls will not re-enable
-		StartCoroutine(WaitForDialogEnd(dialogScreen));
+		StartCoroutine(WaitForDialogEnd());
 	}
 
-	private void SetDialogVariables(DialogScreen dialogScreen) {
+	private void SetDialogVariables() {
 		YarnVariableList variableList = new YarnVariableList();
 		variableList.Add("crewName", crewmateName);
 		variableList.Add("crewType", crewmateType.ToString());
@@ -67,7 +68,7 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 		dialogScreen.Storage.ResetToDefaults();
 	}
 
-	IEnumerator WaitForDialogEnd(DialogScreen dialogScreen) {
+	IEnumerator WaitForDialogEnd() {
 		while (dialogScreen.gameObject.activeInHierarchy)
 		{
 			yield return new WaitForEndOfFrame();
@@ -76,6 +77,23 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 	}
 
 	private void OnDialogEnd() {
+		TriggerRitual();
 		StormDeckManager.instance.EnableControls();
+	}
+
+	private void TriggerRitual() {
+		if (CheckDialogFlag("$startDiceRitual")) {
+			Debug.Log("Start astralagoi");
+		}
+		else if (CheckDialogFlag("$startSacrificeAnimalRitual")) {
+			Debug.Log("Start animal sacrifice");
+		}
+		else {
+			StormDeckManager.instance.EnableControls();
+		}
+	}
+
+	private bool CheckDialogFlag(string variableName) {
+		return dialogScreen.Storage.GetValue(variableName).AsBool;
 	}
 }
