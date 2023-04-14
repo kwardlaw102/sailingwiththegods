@@ -1,3 +1,4 @@
+using NaughtyAttributes.Test;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,13 @@ public class DiceGameToggle : MonoBehaviour
 {
 	private bool isEnabled;
 	public GameObject diceMinigame;
+	private static DiceGameToggle instance;
     // Start is called before the first frame update
+
+	private void Awake() 
+	{
+		instance = this;
+	}
     void Start()
     {
 		isEnabled = false;
@@ -23,6 +30,9 @@ public class DiceGameToggle : MonoBehaviour
 		else
 			diceMinigame.SetActive(false);
     }
+	public static void StartRitual() {
+		instance.ToggleDiceGame();
+	}
 
 	public void ToggleDiceGame() {
 		isEnabled = !isEnabled;
