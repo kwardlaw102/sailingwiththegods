@@ -1937,14 +1937,13 @@ GameObject:
   - component: {fileID: 3099868017761083973}
   - component: {fileID: 3099868017761083975}
   - component: {fileID: 3099868017761083974}
-  - component: {fileID: 7256897618623072026}
   m_Layer: 5
   m_Name: DiceGameUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &3099868017761083973
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1952,7 +1951,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3099868017761083972}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2009,22 +2008,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7256897618623072026
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3099868017761083972}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0549076dcbc5f14e9e44bc054b8ed9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  diceMinigame: {fileID: 0}
-  onRitualEnd:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &3099868017778522465
 GameObject:
   m_ObjectHideFlags: 0

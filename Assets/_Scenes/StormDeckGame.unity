@@ -574,7 +574,7 @@ PrefabInstance:
     - target: {fileID: 6190885994678077830, guid: 1c1c0ae557afe6d4bb6833198718f9d4,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.000061035156
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6190885994678077830, guid: 1c1c0ae557afe6d4bb6833198718f9d4,
         type: 3}
@@ -964,7 +964,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1144359055}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 840778f76dcb295489ee18f5cd83ec31, type: 3}
   m_Name: 
@@ -1284,55 +1284,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!1 &828780895
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 828780896}
-  - component: {fileID: 828780897}
-  m_Layer: 5
-  m_Name: DiceToggle
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &828780896
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828780895}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1559610683}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &828780897
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828780895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0549076dcbc5f14e9e44bc054b8ed9f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  diceMinigame: {fileID: 1862626820}
 --- !u!1 &949608332
 GameObject:
   m_ObjectHideFlags: 0
@@ -1702,7 +1653,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: 46
+  m_firstOverflowCharacterIndex: 63
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -1764,6 +1715,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 554021538077696528, guid: 9a7b540aed58767429f22dbf22a67eb3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3466732701557856381, guid: 9a7b540aed58767429f22dbf22a67eb3,
         type: 3}
       propertyPath: m_Name
@@ -2217,7 +2173,6 @@ RectTransform:
   - {fileID: 1138634706}
   - {fileID: 963308236}
   - {fileID: 1862626819}
-  - {fileID: 828780896}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2226,6 +2181,54 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1606631862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1606631864}
+  - component: {fileID: 1606631863}
+  m_Layer: 0
+  m_Name: MinigameTriggers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1606631863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606631862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0549076dcbc5f14e9e44bc054b8ed9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onRitualEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  diceMinigameUI: {fileID: 1862626820}
+  diceMinigame: {fileID: 1862626821}
+--- !u!4 &1606631864
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606631862}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 19.348566, y: -31.324001, z: 54.092384}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1631410378
 GameObject:
   m_ObjectHideFlags: 0
@@ -2704,7 +2707,7 @@ PrefabInstance:
     - target: {fileID: 3099868017761083972, guid: f303d24395d482944b8c468fbfe2dc06,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3099868017761083973, guid: f303d24395d482944b8c468fbfe2dc06,
         type: 3}
@@ -2825,6 +2828,18 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1862626818}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1862626821 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3099868016771343243, guid: f303d24395d482944b8c468fbfe2dc06,
+    type: 3}
+  m_PrefabInstance: {fileID: 1862626818}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87eb08a92f622f143afb1e3bdb7602d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1862770735 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2807562705145405747, guid: 9a7b540aed58767429f22dbf22a67eb3,
