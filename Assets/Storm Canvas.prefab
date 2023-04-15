@@ -246,7 +246,7 @@ GameObject:
   - component: {fileID: 1342199174208698113}
   - component: {fileID: 1342199174208698114}
   - component: {fileID: 1342199174208698115}
-  - component: {fileID: 1342199174208698140}
+  - component: {fileID: 7805972032252622047}
   m_Layer: 5
   m_Name: Storm Canvas
   m_TagString: Untagged
@@ -335,7 +335,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1342199174208698140
+--- !u!114 &7805972032252622047
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -344,14 +344,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1342199174208698141}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 591bb03d00cb044daa556af346000768, type: 3}
+  m_Script: {fileID: 11500000, guid: 85bcb45a81287411897c67ad6d1ac642, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Warning: {fileID: 1342199174057749523}
   SacrificeMenu: {fileID: 1342199174105656325}
   PromptText: {fileID: 1342199174372377184}
   FlavorText: {fileID: 1342199174153295257}
-  animalsList: {fileID: 1342199175470311275}
+  animalsList: {fileID: 1342199175172047719}
   text: 0
   MenuUp: 0
   SacrificeUp: 0

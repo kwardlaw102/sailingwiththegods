@@ -44,7 +44,7 @@ public class TestForQuests : MonoBehaviour
     void Update() {
        
     }
-    public static void Storm() {
+    public void Storm() {
             MenuUp = !MenuUp;
 
             text = Random.Range(1, 5);
