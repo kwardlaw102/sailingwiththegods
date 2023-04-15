@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 
-public class TestForQuests : MonoBehaviour
+public class TestForQuests : StormDeckRitual
 {
 
 	public enum Problem { None, Sacrifice, Helmsman };
@@ -32,20 +32,6 @@ public class TestForQuests : MonoBehaviour
 	private Animals animals;
 	private FPSMovement player;
 
-<<<<<<< HEAD
-    void Update() {
-       
-    }
-    public void Storm() {
-            MenuUp = !MenuUp;
-=======
-	private static TestForQuests instance;
->>>>>>> cc3cd2edd2ceb7641032ff13c1a6c7a08f34409b
-
-	private void Awake() {
-		instance = this;
-	}
-
 	// Start is called before the first frame update
 	void Start() {
 		animals = FindObjectOfType<Animals>();
@@ -54,16 +40,8 @@ public class TestForQuests : MonoBehaviour
 
 	// Update is called once per frame
 
-<<<<<<< HEAD
-            }
-=======
 	void Update() {
->>>>>>> cc3cd2edd2ceb7641032ff13c1a6c7a08f34409b
 
-	}
-
-	public static void StartAnimalSacrificeRitual() {
-		instance.GiveSacrifice();
 	}
 
 	public void Storm() {
@@ -72,11 +50,7 @@ public class TestForQuests : MonoBehaviour
 		text = Random.Range(1, 5);
 		PromptText.text = "A storm has hit!";
 
-<<<<<<< HEAD
-
-=======
 		switch (text) {
->>>>>>> cc3cd2edd2ceb7641032ff13c1a6c7a08f34409b
 
 			case 0:
 				FlavorText.text = "Often along the streaming hair of the gray salt water They pray for sweet homecoming won in spite of the sea (Archilochus fr. 12, 7th c BC)";
@@ -191,5 +165,9 @@ public class TestForQuests : MonoBehaviour
 
 	void SailAway() {
 
+	}
+
+	public override void StartRitual() {
+		GiveSacrifice();
 	}
 }
