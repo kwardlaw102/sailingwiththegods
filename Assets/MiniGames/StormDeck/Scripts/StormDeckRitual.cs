@@ -13,7 +13,9 @@ public abstract class StormDeckRitual : MonoBehaviour
 	public abstract void StartRitual();
 
 	protected void Awake() {
+		Debug.Log(GetType().ToString() + " is Awake");
 		Register(this);
+		//onRitualEnd.AddListener(onRitualEnd.RemoveAllListeners);
 	}
 
 	private static void Register(StormDeckRitual ritual) {
@@ -26,5 +28,9 @@ public abstract class StormDeckRitual : MonoBehaviour
 		}
 		ritualDictionary[ritualType].StartRitual();
 		return ritualDictionary[ritualType];
+	}
+
+	public void ResetListeners() {
+		onRitualEnd.RemoveAllListeners();
 	}
 }

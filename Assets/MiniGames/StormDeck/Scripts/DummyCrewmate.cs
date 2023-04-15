@@ -88,8 +88,7 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 
 	private StormDeckRitual TriggerRitual() {
 		if (CheckDialogFlag("$startDiceRitual")) {
-			Debug.Log("Start astralagoi");
-			return StormDeckRitual.Run(typeof(DiceGameToggle));
+			return StormDeckRitual.Run(typeof(DiceMinigame));
 		}
 		else if (CheckDialogFlag("$startSacrificeAnimalRitual")) {
 			Debug.Log("Start animal sacrifice");

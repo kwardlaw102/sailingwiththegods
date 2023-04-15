@@ -276,7 +276,6 @@ GameObject:
   - component: {fileID: 3099868016771343242}
   - component: {fileID: 3099868016771343241}
   - component: {fileID: 3099868016771343240}
-  - component: {fileID: 3099868016771343243}
   m_Layer: 5
   m_Name: MinigameManager
   m_TagString: Untagged
@@ -359,24 +358,6 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_EffectDistance: {x: 1, y: -1.5}
   m_UseGraphicAlpha: 1
---- !u!114 &3099868016771343243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3099868016771343246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87eb08a92f622f143afb1e3bdb7602d0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  d1: {fileID: 3099868017873390091}
-  d2: {fileID: 3099868016405709381}
-  d3: {fileID: 3099868017274624565}
-  d4: {fileID: 3099868016999955564}
-  d5: {fileID: 3099868016873367925}
-  totalText: {fileID: 3099868018494137892}
 --- !u!1 &3099868016788277885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1186,7 +1167,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3099868016771343243}
+      - m_Target: {fileID: 3099868016771343243, guid: f303d24395d482944b8c468fbfe2dc06,
+          type: 3}
         m_MethodName: DicesRolled
         m_Mode: 1
         m_Arguments:

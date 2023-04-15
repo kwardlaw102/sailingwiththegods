@@ -171,8 +171,24 @@ public class StormDeckManager : MonoBehaviour
 
 	// Player attempts to sail away after they have performed all of their rituals
 	public void EndMinigame() {
-		if (Random.Range(0, 100) > 100) {
-
+		if (Random.Range(0, 100) > 50) {
+			Victory();
 		}
+		else {
+			Failure();
+		}
+		if (Globals.MiniGames == null) {
+			Debug.LogWarning("Player attempted to end the game, but the minigame manager (Globals.MiniGames) is null.");
+			return;
+		}
+		Globals.MiniGames.Exit();
+	}
+
+	private void Victory() {
+		Debug.Log("Victory!");
+	}
+
+	private void Failure() {
+		Debug.Log("Failure...");
 	}
 }
