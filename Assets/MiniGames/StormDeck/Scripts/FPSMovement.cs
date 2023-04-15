@@ -10,6 +10,7 @@ public class FPSMovement : MonoBehaviour
 	public KeyCode LEFT_KEY = KeyCode.A;
 	public KeyCode RIGHT_KEY = KeyCode.D;
 	public float moveSpeed = 3f;
+	public bool canMove;
 
 	private Rigidbody rb;
 
