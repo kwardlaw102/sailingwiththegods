@@ -1002,6 +1002,8 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 4221df163041afe47a73b0cd9cf4ca50, type: 3}
   - name: port
     sprite: {fileID: 21300000, guid: edbc4e7924a026b4c8907399eaf6a3a5, type: 3}
+  - name: darken
+    sprite: {fileID: 21300000, guid: 7ca1bd2206dc2474483d0e16cff4bbde, type: 3}
 --- !u!1 &905490396170394920
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,6 +2213,7 @@ MonoBehaviour:
   - {fileID: 2480198943629176163, guid: 96d352a84bfe068478b72dd3ad583c77, type: 3}
   - {fileID: 11400000, guid: 83522946a17620c439eccf919b71d205, type: 3}
   - {fileID: 2480198943629176163, guid: 7dfe5b31f21877d47945b49ca00be598, type: 3}
+  - {fileID: 2480198943629176163, guid: 9031232467d6a224f9345e2f59d70e87, type: 3}
   textLanguage: 
   variableStorage: {fileID: 2637946714061866597}
   dialogueUI: {fileID: 8580856020355196408}

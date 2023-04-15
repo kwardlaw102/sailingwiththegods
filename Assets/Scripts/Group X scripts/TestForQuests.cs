@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,93 +9,120 @@ using Random = UnityEngine.Random;
 public class TestForQuests : MonoBehaviour
 {
 
-    public enum Problem {None, Sacrifice, Helmsman };
-    [Space]
-    public GameObject Warning = null;
-    public GameObject SacrificeMenu = null;
-    public Text PromptText;
-    public Text FlavorText;
-    public Text animalsList;
-    public int text;
-    public bool MenuUp, SacrificeUp;
-    public GameObject cursor;
-    public int CodeSelect;
-    public int addValue;
-    public Transform og;
-    private Vector3 add;
-    public bool hasSeer;
-    
-    public string theSacrifice;
+	public enum Problem { None, Sacrifice, Helmsman };
+	[Space]
+	public GameObject Warning = null;
+	public GameObject SacrificeMenu = null;
+	public Text PromptText;
+	public Text FlavorText;
+	public Text animalsList;
+	public int text;
+	public bool MenuUp, SacrificeUp;
+	public GameObject cursor;
+	public int CodeSelect;
+	public int addValue;
+	public Transform og;
+	private Vector3 add;
+	public bool hasSeer;
 
-    public Problem Ritual;
+	public string theSacrifice;
 
-    private Animals animals;
-    private FPSMovement player;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        animals = FindObjectOfType<Animals>();
-        player = FindObjectOfType<FPSMovement>();
-    }
+	public Problem Ritual;
 
-    // Update is called once per frame
+	private Animals animals;
+	private FPSMovement player;
 
+<<<<<<< HEAD
     void Update() {
        
     }
     public void Storm() {
             MenuUp = !MenuUp;
+=======
+	private static TestForQuests instance;
+>>>>>>> cc3cd2edd2ceb7641032ff13c1a6c7a08f34409b
 
-            text = Random.Range(1, 5);
-            PromptText.text = "A storm has hit!";
+	private void Awake() {
+		instance = this;
+	}
 
-            switch (text) {
+	// Start is called before the first frame update
+	void Start() {
+		animals = FindObjectOfType<Animals>();
+		player = FindObjectOfType<FPSMovement>();
+	}
 
-                case 0:
-                    FlavorText.text = "Often along the streaming hair of the gray salt water They pray for sweet homecoming won in spite of the sea (Archilochus fr. 12, 7th c BC)";
-                    break;
-                case 1:
-                    FlavorText.text = "The open sea is churning to a wash of waves. Deep within. A cloud stands upright over the Cyrean caps, signal of a storm, and terror rises from the unforeseen (Archilochus fr. 15, 7th c BC)";
-                    break;
-                case 2:
-                    FlavorText.text = "Long waves surge, churned up on the sea by the east and south winds, hurtling down from heavens; as the west wind sweeps through the high-standing grain  with its violent blast, and the ears all shudder and bow (Adapted from Iliad 2.131)";
-                    break;
-                case 3:
-                    FlavorText.text = "The winds crack and crash,  As when a wave of the loud-roaring sea crashes upon a beach and the surf keeps resounding (Iliad 1.198-200)";
-                    break;
-                case 4:
-                    FlavorText.text = "The Pleiades flee mighty Orion, and plunge into the misty deep: all the gusty winds are raging!  (Hesiod Works and Days 620-621)";
-                    break;
+	// Update is called once per frame
 
+<<<<<<< HEAD
             }
+=======
+	void Update() {
+>>>>>>> cc3cd2edd2ceb7641032ff13c1a6c7a08f34409b
 
-        if (MenuUp) {
-            Warning.SetActive(true);
+	}
 
-            if (Input.GetKeyDown(KeyCode.O)) {
-                GiveSacrifice();
-            }
+	public static void StartAnimalSacrificeRitual() {
+		instance.GiveSacrifice();
+	}
 
-            if (Input.GetKeyDown(KeyCode.M)) {
-                Magic();
-            }
+	public void Storm() {
+		MenuUp = !MenuUp;
 
-            if (Input.GetKeyDown(KeyCode.N)) {
-                SailAway();
-            }
-        }
-        else {
-            Warning.SetActive(false);
-        }
+		text = Random.Range(1, 5);
+		PromptText.text = "A storm has hit!";
+
+<<<<<<< HEAD
+
+=======
+		switch (text) {
+>>>>>>> cc3cd2edd2ceb7641032ff13c1a6c7a08f34409b
+
+			case 0:
+				FlavorText.text = "Often along the streaming hair of the gray salt water They pray for sweet homecoming won in spite of the sea (Archilochus fr. 12, 7th c BC)";
+				break;
+			case 1:
+				FlavorText.text = "The open sea is churning to a wash of waves. Deep within. A cloud stands upright over the Cyrean caps, signal of a storm, and terror rises from the unforeseen (Archilochus fr. 15, 7th c BC)";
+				break;
+			case 2:
+				FlavorText.text = "Long waves surge, churned up on the sea by the east and south winds, hurtling down from heavens; as the west wind sweeps through the high-standing grain  with its violent blast, and the ears all shudder and bow (Adapted from Iliad 2.131)";
+				break;
+			case 3:
+				FlavorText.text = "The winds crack and crash,  As when a wave of the loud-roaring sea crashes upon a beach and the surf keeps resounding (Iliad 1.198-200)";
+				break;
+			case 4:
+				FlavorText.text = "The Pleiades flee mighty Orion, and plunge into the misty deep: all the gusty winds are raging!  (Hesiod Works and Days 620-621)";
+				break;
+
+		}
+
+		if (MenuUp) {
+			Warning.SetActive(true);
+
+			if (Input.GetKeyDown(KeyCode.O)) {
+				GiveSacrifice();
+			}
+
+			if (Input.GetKeyDown(KeyCode.M)) {
+				Magic();
+			}
+
+			if (Input.GetKeyDown(KeyCode.N)) {
+				SailAway();
+			}
+		}
+		else {
+			Warning.SetActive(false);
+		}
 
 
 
-        if (Ritual == Problem.Sacrifice) {
-            Sacrifice();
-        }
-    }
+		if (Ritual == Problem.Sacrifice) {
+			Sacrifice();
+		}
+	}
 	#region Sacc
+
 	void Sacrifice()
     {
         if(SacrificeUp) {
@@ -129,7 +156,7 @@ public class TestForQuests : MonoBehaviour
         SacrificeMenu.SetActive(true);
         cursor.SetActive(true);
         animalsList.text = string.Join("\n", animals.animals);
-        player.canMove = false;
+        //player.canMove = false;
 
     }
 
@@ -137,7 +164,7 @@ public class TestForQuests : MonoBehaviour
         SacrificeMenu.SetActive(false);
         cursor.SetActive(false);
         animalsList.text = null;
-        player.canMove = true;
+        //player.canMove = true;
         Warning.SetActive(true);
         MenuUp = true;
         if (!Right) {
@@ -146,21 +173,23 @@ public class TestForQuests : MonoBehaviour
             PromptText.text = "Correct animal!";
         }
     }
+
 	#endregion
 
 	void Magic() {
-        if(!hasSeer) {
-            PromptText.text = "No seers?";
-            FlavorText.text = null;
-            animalsList.text = null;
-        } else {
-            PromptText.text = "You have a seer?";
-            FlavorText.text = null;
-            animalsList.text = null;
-        }
+		if (!hasSeer) {
+			PromptText.text = "No seers?";
+			FlavorText.text = null;
+			animalsList.text = null;
+		}
+		else {
+			PromptText.text = "You have a seer?";
+			FlavorText.text = null;
+			animalsList.text = null;
+		}
 	}
 
-    void SailAway() {
+	void SailAway() {
 
-    }
+	}
 }

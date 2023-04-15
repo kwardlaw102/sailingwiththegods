@@ -38,6 +38,7 @@ public class MiniGames : MonoBehaviour
 
 		SceneManager.LoadScene(additiveSceneName, LoadSceneMode.Additive);
 		Scene = SceneManager.GetSceneByName(additiveSceneName);
+		Globals.Get<AudioManager>().MuteMainGameAudio();
 	}
 
 	/// <summary>
@@ -49,6 +50,7 @@ public class MiniGames : MonoBehaviour
 	public void Enter(string prefabName){
 		EnterInternal(disableCamera: false);
 		Instantiate(Resources.Load<GameObject>(prefabName)).transform.SetParent(transform);
+		Globals.Get<AudioManager>().MuteMainGameAudio();
 	}
 
 	/// <summary>
@@ -61,6 +63,7 @@ public class MiniGames : MonoBehaviour
 			Destroy(transform.GetChild(i).gameObject, .1f);
 		}
 
+		Globals.Get<AudioManager>().UnmuteMainGameAudio();
 		StartCoroutine(ExitInternal());
 	}
 
