@@ -18,7 +18,7 @@ public abstract class StormDeckRitual : MonoBehaviour
 		//onRitualEnd.AddListener(onRitualEnd.RemoveAllListeners);
 	}
 
-	private static void Register(StormDeckRitual ritual) {
+	protected static void Register(StormDeckRitual ritual) {
 		ritualDictionary.Add(ritual.GetType(), ritual);
 	}
 
