@@ -77,20 +77,24 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 	}
 
 	private void OnDialogEnd() {
-		TriggerRitual();
-		StormDeckManager.instance.EnableControls();
+		StormDeckRitual ritual = TriggerRitual();
+		if (ritual == null) {
+			StormDeckManager.instance.EnableControls();
+		}
+		else {
+			ritual.onRitualEnd.AddListener(StormDeckManager.instance.EnableControls);
+		}
 	}
 
-	private void TriggerRitual() {
+	private StormDeckRitual TriggerRitual() {
 		if (CheckDialogFlag("$startDiceRitual")) {
-			Debug.Log("Start astralagoi");
+			return StormDeckRitual.Run(typeof(DiceMinigame));
 		}
 		else if (CheckDialogFlag("$startSacrificeAnimalRitual")) {
 			Debug.Log("Start animal sacrifice");
+			return StormDeckRitual.Run(typeof(TestForQuests));
 		}
-		else {
-			StormDeckManager.instance.EnableControls();
-		}
+		return null;
 	}
 
 	private bool CheckDialogFlag(string variableName) {

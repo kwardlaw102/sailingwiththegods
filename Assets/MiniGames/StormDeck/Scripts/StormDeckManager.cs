@@ -1,35 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class StormDeckManager : MonoBehaviour
 {
 	private List<GameObject> crewObjects = new List<GameObject>();
+	private IList<CrewMember> crewRoster = null;
+	private int malefactorNdx;
+	private float successChance = 0.05f;
+	private List<string> outcomeNarrative;
 
 	[Header("Minigame Info")]
-	public MiniGameInfoScreen minigameInfoScreen;
-	public string eventTitle;
-	public string eventSubtitle;
-	public Sprite eventIcon;
+	[SerializeField] private MiniGameInfoScreen minigameInfoScreen = null;
+	[SerializeField] private string eventTitle = "";
+	[SerializeField] private string eventSubtitle = "";
+	[SerializeField] private Sprite eventIcon = null;
+	[SerializeField] private MinigameInfoSettings minigameInfo;
+	[SerializeField] private MinigameInfoSettings outcomeInfo;
 
 	[Header("Event Components")]
-	public GameObject crewPrefab = null;
-	public List<Transform> spawnLocations;
-	public FPSCamera fpsCamera;
-	public FPSMovement fpsMovement;
-	public Canvas eventUI;
-
-	private IList<CrewMember> crewRoster;
-	int malefactorNdx;
+	[SerializeField] private GameObject crewPrefab = null;
+	[SerializeField] private List<Transform> spawnLocations = null;
+	[SerializeField] private FPSCamera fpsCamera = null;
+	[SerializeField] private FPSMovement fpsMovement = null;
+	[SerializeField] private GameObject eventUI = null;
 
 	[Header("Event Info Dialog")]
 	[TextArea(1, 3)]
-	public string eventStartMessage1;
+	[SerializeField] private string eventStartMessage1 = "";
 	[TextArea(1,3)]
-	public string eventStartMessage2;
+	[SerializeField] private string eventStartMessage2 = "";
 
-	public List<string> malefactorFlavorText;
-	public List<string> historicalQuotes;
+	[SerializeField] private List<string> malefactorFlavorText = null;
+	[SerializeField] private List<string> historicalQuotes = null;
 
 	public static StormDeckManager instance;
 
@@ -47,16 +51,21 @@ public class StormDeckManager : MonoBehaviour
 		crewObjects[malefactorNdx].GetComponentInChildren<FPSInteractable>().OnInteract.RemoveAllListeners();
 		crewObjects[malefactorNdx].GetComponentInChildren<FPSInteractable>().OnInteract.AddListener(() => SacrificeCrewMember(crewRoster, crewRoster[malefactorNdx]));
 
-		StartCoroutine(UnlockCursorForMenuCoroutine());
+		StartCoroutine(ShowInfoMenuCoroutine(EnableControls));
 		ShowEventInfoDialog();
 	}
 
-	private IEnumerator UnlockCursorForMenuCoroutine() {
+	private IEnumerator ShowInfoMenuCoroutine(params UnityAction[] callbacks) {
 		DisableControls();
+		HideUI();
+		minigameInfoScreen.gameObject.SetActive(true);
 		while (minigameInfoScreen.gameObject.activeInHierarchy) {
 			yield return new WaitForEndOfFrame();
 		}
-		EnableControls();
+		ShowUI();
+		foreach (UnityAction callback in callbacks) {
+			callback.Invoke();
+		}
 	}
 
 	private string GenerateEventStartDialog() {
@@ -72,7 +81,7 @@ public class StormDeckManager : MonoBehaviour
 
 	private void ShowEventInfoDialog() {
 		string eventStartDialog = GenerateEventStartDialog();
-		minigameInfoScreen.DisplayText(eventTitle, eventSubtitle, eventStartDialog, eventIcon, MiniGameInfoScreen.MiniGame.StormDeckStart);
+		minigameInfoScreen.DisplayText(minigameInfo.title, minigameInfo.subtitle, eventStartDialog, minigameInfo.icon, minigameInfo.type);
 	}
 
 	private List<string> GetMalefactorFlavorTexts(int count = 1) {
@@ -94,14 +103,6 @@ public class StormDeckManager : MonoBehaviour
 		if (historicalQuotes.Count == 0) return "";
 		int ndx = Random.Range(0, historicalQuotes.Count);
 		return historicalQuotes[ndx];
-	}
-
-	private void CrewRosterTest(IList<CrewMember> crewList) {
-		Debug.Log("Crew List:");
-		foreach (CrewMember c in crewList) {
-			Debug.Log(c.name);
-		}
-		Debug.Log("End of list");
 	}
 
 	private void SacrificeCrewMember(IList<CrewMember> crewList, CrewMember c) {
@@ -162,17 +163,65 @@ public class StormDeckManager : MonoBehaviour
 	}
 
 	public void HideUI() {
-		eventUI.enabled = false;
+		eventUI.SetActive(false);
 	}
 
 	public void ShowUI() {
-		eventUI.enabled = true;
+		eventUI.SetActive(true);
 	}
 
 	// Player attempts to sail away after they have performed all of their rituals
 	public void EndMinigame() {
-		if (Random.Range(0, 100) > 100) {
-
+		if (Random.Range(0f, 1f) < successChance) {
+			Victory();
+		}
+		else {
+			Failure();
+		}
+		if (Globals.MiniGames == null) {
+			Debug.LogWarning("Player attempted to end the game, but the minigame manager (Globals.MiniGames) is null.");
+			return;
 		}
 	}
+
+	private void Victory() {
+		Debug.Log("Victory!");
+		ShowOutcomeInfoScreen();
+	}
+
+	private void Failure() {
+		Debug.Log("Failure...");
+		ShowOutcomeInfoScreen();
+	}
+
+	private void ShowOutcomeInfoScreen() {
+		minigameInfoScreen.gameObject.SetActive(true);
+		minigameInfoScreen.DisplayText(outcomeInfo.title, outcomeInfo.subtitle, outcomeInfo.content, outcomeInfo.icon, outcomeInfo.type);
+		StartCoroutine(ShowInfoMenuCoroutine(Globals.MiniGames.Exit));
+		
+	}
+
+	#region Private inner classes for collapsible inspector sections
+	[System.Serializable]
+	private class MinigameInfoSettings
+	{
+		public string title;
+		public string subtitle;
+		public string content;
+		public Sprite icon;
+		public MiniGameInfoScreen.MiniGame type;
+	}
+	#endregion
+
+	#region Testing
+	private void CrewRosterTest(IList<CrewMember> crewList) {
+		Debug.Log("Crew List:");
+		foreach (CrewMember c in crewList) {
+			Debug.Log(c.name);
+		}
+		Debug.Log("End of list");
+	}
+	#endregion
 }
+
+

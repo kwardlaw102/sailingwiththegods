@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 
-public class TestForQuests : MonoBehaviour
+public class TestForQuests : StormDeckRitual
 {
 
 	public enum Problem { None, Sacrifice, Helmsman };
@@ -32,12 +32,6 @@ public class TestForQuests : MonoBehaviour
 	private Animals animals;
 	private FPSMovement player;
 
-	private static TestForQuests instance;
-
-	private void Awake() {
-		instance = this;
-	}
-
 	// Start is called before the first frame update
 	void Start() {
 		animals = FindObjectOfType<Animals>();
@@ -48,10 +42,6 @@ public class TestForQuests : MonoBehaviour
 
 	void Update() {
 
-	}
-
-	public static void StartAnimalSacrificeRitual() {
-		instance.GiveSacrifice();
 	}
 
 	public void Storm() {
@@ -175,5 +165,9 @@ public class TestForQuests : MonoBehaviour
 
 	void SailAway() {
 
+	}
+
+	public override void StartRitual() {
+		GiveSacrifice();
 	}
 }
