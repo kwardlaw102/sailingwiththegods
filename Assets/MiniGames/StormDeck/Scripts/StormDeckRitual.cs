@@ -13,13 +13,18 @@ public abstract class StormDeckRitual : MonoBehaviour
 	public abstract void StartRitual();
 
 	protected void Awake() {
-		Debug.Log(GetType().ToString() + " is Awake");
-		Register(this);
-		//onRitualEnd.AddListener(onRitualEnd.RemoveAllListeners);
+		//Debug.Log(GetType().ToString() + " is Awake");
+
+		if (!HasRegisteredRitual(this))
+			Register(this);
 	}
 
 	protected static void Register(StormDeckRitual ritual) {
 		ritualDictionary.Add(ritual.GetType(), ritual);
+	}
+
+	private static bool HasRegisteredRitual(StormDeckRitual ritual) {
+		return ritualDictionary.ContainsKey(ritual.GetType());
 	}
 
 	public static StormDeckRitual Run(Type ritualType) {

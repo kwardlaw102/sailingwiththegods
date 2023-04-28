@@ -10,6 +10,7 @@ public class InteractionManager : MonoBehaviour
 	public KeyCode interactKey = KeyCode.E;
 	private FPSInteractable hoveredInteractable;
 	public TMPro.TextMeshProUGUI interactionPrompt;
+	private static bool canInteract = false;
 
 	private bool interactionPromptIsShowing = false;
 
@@ -17,13 +18,13 @@ public class InteractionManager : MonoBehaviour
 		cursorLocation = new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight) / 2;
 		FPSInteractable curHoveredInteractable = GetHoveredInteractable(cursorLocation);
 
-		if (hoveredInteractable != curHoveredInteractable && curHoveredInteractable != null) {
-			ShowInteractionPrompt(curHoveredInteractable.GetInteractionPrompt());
-		}
-		if (curHoveredInteractable == null && interactionPromptIsShowing) {
+		if (!CanInteract() || (curHoveredInteractable == null && interactionPromptIsShowing)) {
 			HideInteractionPrompt();
 		}
-		if (curHoveredInteractable != null && Input.GetKeyDown(interactKey)) {
+		else if (hoveredInteractable != curHoveredInteractable && curHoveredInteractable != null) {
+			ShowInteractionPrompt(curHoveredInteractable.GetInteractionPrompt());
+		}
+		else if (curHoveredInteractable != null && Input.GetKeyDown(interactKey)) {
 			curHoveredInteractable.OnInteract.Invoke();
 		}
 		hoveredInteractable = curHoveredInteractable;
@@ -45,5 +46,17 @@ public class InteractionManager : MonoBehaviour
 	private void HideInteractionPrompt() {
 		interactionPrompt.enabled = false;
 		interactionPromptIsShowing = false;
+	}
+
+	private bool CanInteract() {
+		return canInteract;
+	}
+
+	public static void EnableInteraction() {
+		canInteract = true;
+	}
+
+	public static void DisableInteraction() {
+		canInteract = false;
 	}
 }

@@ -56,7 +56,7 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 		StormDeckManager.instance.DisableControls();
 		dialogScreen = UI.Show<DialogScreen>();
 		SetDialogVariables();
-		dialogScreen.StartDialog("StartStormDeck", "darken"); // FIXME: if this errors, the player's controls will not re-enable
+		dialogScreen.StartDialog("StartStormDeck", "darken"); // if this errors, the player's controls will not re-enable
 		StartCoroutine(WaitForDialogEnd());
 	}
 
@@ -77,13 +77,36 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 	}
 
 	private void OnDialogEnd() {
-		StormDeckRitual ritual = TriggerRitual();
-		if (ritual == null) {
+		YarnFlagResponse.ProcessResponses(dialogScreen.Storage);
+		//ProcessYarnFlags();
+	}
+
+	private void ProcessYarnFlags() {
+		List<YarnFlagResponse> responses = new List<YarnFlagResponse>();
+
+		return;
+		bool restoreControls = true;
+
+		if (CheckDialogFlag("$startDiceRitual")) {
+			RunRitual(typeof(DiceMinigame));
+			restoreControls = false;
+		}
+		else if (CheckDialogFlag("$startSacrificeAnimalRitual")) {
+			Debug.Log("Start animal sacrifice");
+			RunRitual(typeof(TestForQuests));
+			restoreControls = false;
+		}
+
+		if (restoreControls) {
 			StormDeckManager.instance.EnableControls();
 		}
-		else {
-			ritual.onRitualEnd.AddListener(StormDeckManager.instance.EnableControls);
-		}
+	}
+
+	
+
+	private void RunRitual(System.Type ritualType) {
+		StormDeckRitual ritual = StormDeckRitual.Run(ritualType);
+		ritual.onRitualEnd.AddListener(StormDeckManager.instance.EnableControls);
 	}
 
 	private StormDeckRitual TriggerRitual() {
