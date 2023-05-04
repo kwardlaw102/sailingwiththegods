@@ -9,7 +9,7 @@ public class DiceGameToggle : StormDeckRitual
 	public GameObject diceMinigameUI;
 	public DiceMinigame diceMinigame;
 
-    void Update()
+    void Update() //(DEBUG) Press G to toggle the dice game display on/off
     {
 		if (Input.GetKeyUp(KeyCode.G))
 			ToggleDiceGame();
