@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Yarn.Unity;
-public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
+public class DummyCrewmate : MonoBehaviour, InteractionPromptProvider
 {
 	private UISystem UI => Globals.UI;
 	private DialogScreen dialogScreen;
@@ -25,7 +25,7 @@ public class DummyCrewmate : MonoBehaviour, IInteractionPromptProvider
 			Debug.Log(FormatDialogue(message));
 		}
 		else {
-			DialogueManager.DisplayText(FormatDialogue(message));
+			DialogueManager.instance.DisplayNotification(FormatDialogue(message));
 		}
 	}
 

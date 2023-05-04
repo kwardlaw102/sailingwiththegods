@@ -267,6 +267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1229527810747200172}
   - component: {fileID: 1765342730}
+  - component: {fileID: 2525690827266594899}
   m_Layer: 0
   m_Name: Crew Member
   m_TagString: Untagged
@@ -309,6 +310,60 @@ MonoBehaviour:
     -{1}-'
   nameplate: {fileID: 1835303336}
   speakThroughDebug: 0
+--- !u!114 &2525690827266594899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1229527810747200175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a5ef23b758c1a478e23349f5bce5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnHover:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1765342730}
+        m_MethodName: Say
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hello!
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnInteract:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1765342730}
+        m_MethodName: StartDialogue
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Do you need something?
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnStopHover:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1765342730}
+        m_MethodName: Say
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Bye!
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1229527811694636273
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,7 +448,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1229527811717609273}
   - component: {fileID: 1229527811717609223}
-  - component: {fileID: 1229527811717609222}
   m_Layer: 0
   m_Name: InteractionCollider
   m_TagString: Untagged
@@ -429,60 +483,6 @@ CapsuleCollider:
   m_Height: 1.76
   m_Direction: 1
   m_Center: {x: 0, y: 0.88, z: 0}
---- !u!114 &1229527811717609222
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1229527811717609272}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91a5ef23b758c1a478e23349f5bce5f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnHover:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1765342730}
-        m_MethodName: Say
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Hello!
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1765342730}
-        m_MethodName: StartDialogue
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Do you need something?
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnStopHover:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1765342730}
-        m_MethodName: Say
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Bye!
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &1229527812108034470
 GameObject:
   m_ObjectHideFlags: 0

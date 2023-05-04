@@ -8,13 +8,11 @@ public class BillboardRotation : MonoBehaviour
 
     void Update()
     {
-		Quaternion newRotation;
 		if (yawOnly) {
-			newRotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
+			transform.rotation = Quaternion.Euler(0, Camera.main.transform.rotation.eulerAngles.y, 0);
 		}
 		else {
-			newRotation = Camera.main.transform.rotation;
+			transform.rotation = Camera.main.transform.rotation;
 		}
-		transform.rotation = newRotation;
     }
 }

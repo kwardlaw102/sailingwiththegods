@@ -946,10 +946,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interactionDistance: 2
+  interactKey: 101
   interactableLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  interactKey: 101
   interactionPrompt: {fileID: 2044955706}
 --- !u!114 &369318457
 MonoBehaviour:
@@ -963,11 +963,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f8e52d707c7a9a498e8d4db8c0aa5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textComponent: {fileID: 1138634707}
   fadeInSeconds: 0.3
   visibleSecondsBase: 2
   visibleSecondsPerCharacter: 0.01
   fadeOutSeconds: 0.3
+  textComponent: {fileID: 1138634707}
 --- !u!82 &369318458
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1220,7 +1220,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &709255122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1233,8 +1233,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ece9c5a5e563c4c8c5e476c104e6cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionText: You offer some incense on the thymiaterion. Streaks of sunlight
-    are beginning to pierce through the clouds.
+  interactionResultText: You light the thymiaterion. The skies begin to clear.
+  interactionPrompt: light the incense burner
 --- !u!114 &709255123
 MonoBehaviour:
   m_ObjectHideFlags: 0

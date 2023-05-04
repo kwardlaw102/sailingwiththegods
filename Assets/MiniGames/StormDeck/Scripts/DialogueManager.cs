@@ -1,25 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
-	[SerializeField]
-	private TextMeshProUGUI textComponent = null;
-	private Color textColor;
-	private Coroutine activeCoroutine;
-
+	[Header("Configuration")]
 	public float fadeInSeconds = 1f;
 	public float visibleSecondsBase = 2f;
 	public float visibleSecondsPerCharacter = 0.01f;
 	public float fadeOutSeconds = 1f;
 
-	private static DialogueManager instance;
+	[Header("Object References")]
+	[SerializeField] private TMPro.TextMeshProUGUI textComponent = null;
+
+	public static DialogueManager instance { get; private set; }
 
     private void Awake()
     {
-		//textComponent = GetComponent<TextMeshProUGUI>();
+		if (instance != null) {
+			Debug.LogError("Only one instance of " + GetType() + " should exist at a time.");
+			return;
+		}
 		instance = this;
 	}
 
@@ -27,31 +28,28 @@ public class DialogueManager : MonoBehaviour
 		HideText();
 	}
 
-	public static void DisplayText(string text) {
-		instance.DisplayTextHelper(text);
-	}
-
-	private void DisplayTextHelper(string text) {
+	/// <summary>
+	/// Displays a temporary notification in the top left of the screen (or wherever textComponent is located on the screen)
+	/// </summary>
+	public void DisplayNotification(string text) {
 		if (text == null) {
 			text = "null";
 		}
 		HideText();
 		textComponent.text = text;
-		if (activeCoroutine != null) {
-			StopCoroutine(activeCoroutine);
-		}
+		StopAllCoroutines();
 		float visibleSeconds = visibleSecondsBase + text.Length * visibleSecondsPerCharacter;
-		activeCoroutine = StartCoroutine(FadeCoroutine(fadeInSeconds, visibleSeconds, fadeOutSeconds));
+		StartCoroutine(FadeCoroutine(fadeInSeconds, visibleSeconds, fadeOutSeconds));
 	}
 
 	private void HideText() {
-		textColor = textComponent.color;
+		Color textColor = textComponent.color;
 		textColor.a = 0;
 		textComponent.color = textColor;
 	}
 
 	private IEnumerator FadeCoroutine(float fadeInSeconds, float visibleSeconds, float fadeOutSeconds) {
-		textColor = textComponent.color;
+		Color textColor = textComponent.color;
 		textColor.a = 0;
 
 		// fade in
@@ -63,20 +61,15 @@ public class DialogueManager : MonoBehaviour
 				break;
 			}
 			textComponent.color = textColor;
-			
 			yield return new WaitForEndOfFrame();
 		}
 
 		// remain visible
-		float elapsedTime = 0f;
-		while (elapsedTime < visibleSeconds) {
-			elapsedTime += Time.deltaTime;
-			yield return new WaitForEndOfFrame();
-		}
+		yield return new WaitForSeconds(visibleSeconds);
 
 		// fade out
 		while (true) {
-			textColor.a -= Time.deltaTime / fadeInSeconds;
+			textColor.a -= Time.deltaTime / fadeOutSeconds;
 			if (textColor.a < 0) {
 				textColor.a = 0;
 				textComponent.color = textColor;

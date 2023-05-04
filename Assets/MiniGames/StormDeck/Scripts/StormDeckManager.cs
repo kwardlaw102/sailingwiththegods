@@ -15,8 +15,8 @@ public class StormDeckManager : MonoBehaviour
 	[SerializeField] private string eventTitle = "";
 	[SerializeField] private string eventSubtitle = "";
 	[SerializeField] private Sprite eventIcon = null;
-	[SerializeField] private MinigameInfoSettings minigameInfo;
-	[SerializeField] private MinigameInfoSettings outcomeInfo;
+	[SerializeField] private MinigameInfoSettings minigameInfo = null;
+	[SerializeField] private MinigameInfoSettings outcomeInfo = null;
 
 	[Header("Event Components")]
 	[SerializeField] private GameObject crewPrefab = null;
@@ -119,7 +119,7 @@ public class StormDeckManager : MonoBehaviour
 	private void SacrificeCrewMember(IList<CrewMember> crewList, CrewMember c) {
 		Destroy(crewObjects[crewList.IndexOf(c)]);
 		crewList.Remove(c);
-		DialogueManager.DisplayText(c.name + " has been thrown overboard.");
+		DialogueManager.instance.DisplayNotification(c.name + " has been thrown overboard.");
 	}
 
 	private IList<CrewMember> GetCrewRoster() {
@@ -189,7 +189,7 @@ public class StormDeckManager : MonoBehaviour
 	public void DisableControls() {
 		fpsCamera.enabled = false;
 		fpsMovement.enabled = false;
-		InteractionManager.DisableInteraction();
+		InteractionManager.instance.DisableInteraction();
 		Rigidbody rb = fpsMovement.transform.GetComponentInParent<Rigidbody>();
 		if (rb != null)
 			rb.velocity = Vector3.zero;
@@ -198,7 +198,7 @@ public class StormDeckManager : MonoBehaviour
 	public void EnableControls() {
 		fpsCamera.enabled = true;
 		fpsMovement.enabled = true;
-		InteractionManager.EnableInteraction();
+		InteractionManager.instance.EnableInteraction();
 	}
 
 	public void HideUI() {
@@ -248,11 +248,11 @@ public class StormDeckManager : MonoBehaviour
 	[System.Serializable]
 	private class MinigameInfoSettings
 	{
-		public string title;
-		public string subtitle;
-		public string content;
-		public Sprite icon;
-		public MiniGameInfoScreen.MiniGame type;
+		public string title = "";
+		public string subtitle = "";
+		public string content = "";
+		public Sprite icon = null;
+		public MiniGameInfoScreen.MiniGame type = MiniGameInfoScreen.MiniGame.StormDeckStart;
 	}
 	#endregion
 
