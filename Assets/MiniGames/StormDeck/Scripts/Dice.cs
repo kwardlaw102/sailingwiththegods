@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Dice : MonoBehaviour 
 {
 	private int value;
-	private double[] chances;
 	private bool hold;
 	public int GetValue() 
 	{
@@ -19,10 +18,10 @@ public class Dice : MonoBehaviour
 
 	public void Roll() 
 	{
-		if(hold == false) 
+		if(hold == false)
 		{
 			int roll = Random.Range(0, 4);
-			switch (roll) {
+			switch (roll) { //Randomly chooses a number 0-3 and assigns a value based on real astragaloi numbers
 				case 0:
 					value = 1;
 					break;
