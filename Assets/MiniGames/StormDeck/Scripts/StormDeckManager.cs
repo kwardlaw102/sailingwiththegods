@@ -7,7 +7,6 @@ public class StormDeckManager : MonoBehaviour
 {
 	private List<GameObject> crewObjects = new List<GameObject>();
 	private IList<CrewMember> crewRoster = null;
-	private int malefactorNdx;
 	private float successChance = 0.05f;
 	private List<string> outcomeNarrative;
 
@@ -16,8 +15,8 @@ public class StormDeckManager : MonoBehaviour
 	[SerializeField] private string eventTitle = "";
 	[SerializeField] private string eventSubtitle = "";
 	[SerializeField] private Sprite eventIcon = null;
-	[SerializeField] private MinigameInfoSettings minigameInfo;
-	[SerializeField] private MinigameInfoSettings outcomeInfo;
+	[SerializeField] private MinigameInfoSettings minigameInfo = null;
+	[SerializeField] private MinigameInfoSettings outcomeInfo = null;
 
 	[Header("Event Components")]
 	[SerializeField] private GameObject crewPrefab = null;
@@ -35,6 +34,17 @@ public class StormDeckManager : MonoBehaviour
 	[SerializeField] private List<string> malefactorFlavorText = null;
 	[SerializeField] private List<string> historicalQuotes = null;
 
+	// ============== DIVINATIONS, RITUALS, AND OTHER DIALOGUE VARIABLES =================
+
+	// Malefactor variables
+	private int malefactorNdx;
+	private CrewMember malefactor => crewRoster[malefactorNdx];
+	private string malefactorType;
+
+	private int astragaliHolderNdx;
+
+	// ===================================================================================
+
 	public static StormDeckManager instance;
 
 	private void Awake() {
@@ -44,12 +54,13 @@ public class StormDeckManager : MonoBehaviour
 	void Start()
     {
 		crewRoster = GetCrewRoster();
-		malefactorNdx = ChooseMalefactor();
+		ChooseMalefactor();
 		Debug.Log(crewRoster[malefactorNdx].name + " is the malefactor");
 
 		SpawnCrew();
 		crewObjects[malefactorNdx].GetComponentInChildren<FPSInteractable>().OnInteract.RemoveAllListeners();
 		crewObjects[malefactorNdx].GetComponentInChildren<FPSInteractable>().OnInteract.AddListener(() => SacrificeCrewMember(crewRoster, crewRoster[malefactorNdx]));
+		InitYarnFlagResponses();
 
 		StartCoroutine(ShowInfoMenuCoroutine(EnableControls));
 		ShowEventInfoDialog();
@@ -108,7 +119,7 @@ public class StormDeckManager : MonoBehaviour
 	private void SacrificeCrewMember(IList<CrewMember> crewList, CrewMember c) {
 		Destroy(crewObjects[crewList.IndexOf(c)]);
 		crewList.Remove(c);
-		DialogueManager.DisplayText(c.name + " has been thrown overboard.");
+		DialogueManager.instance.DisplayNotification(c.name + " has been thrown overboard.");
 	}
 
 	private IList<CrewMember> GetCrewRoster() {
@@ -146,20 +157,48 @@ public class StormDeckManager : MonoBehaviour
 		}
 	}
 
-	private int ChooseMalefactor() {
-		// TODO: make sure chosen malefactor is killable; return -1 if no crew members are killable
-		return Random.Range(0, crewRoster.Count);
+	public CrewMember CrewObjectToCrewMember(GameObject crewObject) {
+		return crewRoster[crewObjects.IndexOf(crewObject)];
+	}
+
+	public GameObject CrewMemberToCrewObject(CrewMember crewMember) {
+		return crewObjects[crewRoster.IndexOf(crewMember)];
+	}
+
+	private void ChooseMalefactor() {
+		int repeatCount = 0;
+		do {
+			malefactorNdx = Random.Range(0, crewRoster.Count);
+			repeatCount++;
+			if (repeatCount > 100) {
+				throw new System.NotImplementedException("Failed to choose a malefactor " + repeatCount + " times; crew likely consists only of Seers or unkillable crew. This case is not yet handled.");
+			}
+		} while (!IsValidMalefactor(crewRoster[malefactorNdx])); //FIXME: infinite loop if crew only consists of Seers or unkillable crew
+	}
+
+	private bool IsValidMalefactor(CrewMember crewMember) {
+		return crewMember.typeOfCrew != CrewType.Seer && crewMember.isKillable;
+	}
+
+	private void GiveAstragaliToRandomCrew() {
+		do {
+			astragaliHolderNdx = Random.Range(0, crewRoster.Count);
+		} while (crewRoster[astragaliHolderNdx].typeOfCrew != CrewType.Seer);
 	}
 
 	public void DisableControls() {
 		fpsCamera.enabled = false;
 		fpsMovement.enabled = false;
-
+		InteractionManager.instance.DisableInteraction();
+		Rigidbody rb = fpsMovement.transform.GetComponentInParent<Rigidbody>();
+		if (rb != null)
+			rb.velocity = Vector3.zero;
 	}
 
 	public void EnableControls() {
 		fpsCamera.enabled = true;
 		fpsMovement.enabled = true;
+		InteractionManager.instance.EnableInteraction();
 	}
 
 	public void HideUI() {
@@ -200,16 +239,20 @@ public class StormDeckManager : MonoBehaviour
 		StartCoroutine(ShowInfoMenuCoroutine(Globals.MiniGames.Exit));
 		
 	}
+	private void InitYarnFlagResponses() {
+		YarnFlagResponse.RegisterResponse("$startDiceRitual", new RunRitualResponse(typeof(DiceMinigame)));
+		YarnFlagResponse.RegisterResponse("$startSacrificeAnimalRitual", new FuncResponse(() => Debug.Log("Sacrifice animal")));
+	}
 
 	#region Private inner classes for collapsible inspector sections
 	[System.Serializable]
 	private class MinigameInfoSettings
 	{
-		public string title;
-		public string subtitle;
-		public string content;
-		public Sprite icon;
-		public MiniGameInfoScreen.MiniGame type;
+		public string title = "";
+		public string subtitle = "";
+		public string content = "";
+		public Sprite icon = null;
+		public MiniGameInfoScreen.MiniGame type = MiniGameInfoScreen.MiniGame.StormDeckStart;
 	}
 	#endregion
 

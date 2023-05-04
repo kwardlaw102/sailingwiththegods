@@ -5,7 +5,8 @@ using UnityEngine;
 public class StormDeckEvent : RandomEvents.NegativeEvent
 {
 	public override float Weight() {
-		return 2f;
+		return 0f;
+		//return 2f;
 	}
 
 	public override void Execute() {
