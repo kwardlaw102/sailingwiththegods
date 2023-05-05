@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
 	[SerializeField] private Sound[] sounds = null;
 	//[SerializeField] private static AudioManager instance = null;
 	[SerializeField] private AudioMixerGroup mixerGroup = null;
-	[SerializeField] private AudioMixer mixer;
+	[SerializeField] private AudioMixer mixer = null;
 
 	private const float MUTE_VOLUME_DB = -80f;
 	private const float NORMAL_VOLUME_DB = 0f;

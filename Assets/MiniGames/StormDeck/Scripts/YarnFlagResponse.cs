@@ -6,29 +6,24 @@ using Yarn.Unity;
 
 public abstract class YarnFlagResponse
 {
-	private static Dictionary<string, YarnFlagResponse> responseDictionary = new Dictionary<string, YarnFlagResponse>();
+	private static readonly Dictionary<string, YarnFlagResponse> responseDictionary = new Dictionary<string, YarnFlagResponse>();
+
+	public abstract void Invoke();
 
 	public static void RegisterResponse(string flagVariableName, YarnFlagResponse response) {
 		if (responseDictionary.ContainsKey(flagVariableName)) {
-			Debug.LogError("Tried to create a duplicate response for an existing Yarn flag; this is currently not supported"); //TODO: support multiple responses for same variable; but when should control be restored?
-			return;
+			throw new System.NotImplementedException("Tried to create a duplicate response for an existing Yarn flag; this is currently not supported"); //TODO: support multiple responses for same variable; but when should control be restored?
 		}
 		responseDictionary.Add(flagVariableName, response);
 	}
 
-	public static void ProcessResponses(InMemoryVariableStorage storage) {
+	public static void ProcessFlags(InMemoryVariableStorage storage) {
 		foreach (string variableName in responseDictionary.Keys) {
 			if (storage.GetValue(variableName).AsBool) {
 				responseDictionary[variableName].Invoke();
 			}
 		}
 	}
-
-	protected void EnableControls() {
-		StormDeckManager.instance.EnableControls();
-	}
-
-	public abstract void Invoke();
 }
 
 public class RunRitualResponse : YarnFlagResponse
@@ -38,7 +33,6 @@ public class RunRitualResponse : YarnFlagResponse
 	public RunRitualResponse(System.Type ritualType) {
 		this.ritualType = ritualType;
 	}
-
 
 	public override void Invoke() {
 		StormDeckRitual ritual = StormDeckRitual.Run(ritualType);

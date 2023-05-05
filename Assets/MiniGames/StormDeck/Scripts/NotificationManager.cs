@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DialogueManager : MonoBehaviour
+public class NotificationManager : MonoBehaviour
 {
 	[Header("Configuration")]
 	public float fadeInSeconds = 1f;
@@ -13,7 +13,7 @@ public class DialogueManager : MonoBehaviour
 	[Header("Object References")]
 	[SerializeField] private TMPro.TextMeshProUGUI textComponent = null;
 
-	public static DialogueManager instance { get; private set; }
+	public static NotificationManager instance { get; private set; }
 
     private void Awake()
     {

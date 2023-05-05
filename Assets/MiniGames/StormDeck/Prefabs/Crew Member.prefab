@@ -174,7 +174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hideDistance: 10
   farScale: 3.5
-  closeScale: 9
+  nearScale: 9
 --- !u!1 &1229527810718641848
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +266,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1229527810747200172}
-  - component: {fileID: 1765342730}
+  - component: {fileID: 1018340108338280061}
   - component: {fileID: 2525690827266594899}
   m_Layer: 0
   m_Name: Crew Member
@@ -291,7 +291,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1765342730
+--- !u!114 &1018340108338280061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -300,7 +300,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1229527810747200175}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 490012b513acb4b46ba5b45b53c8d551, type: 3}
+  m_Script: {fileID: 11500000, guid: 47ec01a110f94fc46ac8cddac59835ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   crewmateName: Crewmate
@@ -309,7 +309,6 @@ MonoBehaviour:
 
     -{1}-'
   nameplate: {fileID: 1835303336}
-  speakThroughDebug: 0
 --- !u!114 &2525690827266594899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,22 +323,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OnHover:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1765342730}
-        m_MethodName: Say
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Hello!
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   OnInteract:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1765342730}
+      - m_Target: {fileID: 1018340108338280061}
         m_MethodName: StartDialogue
         m_Mode: 1
         m_Arguments:
@@ -352,18 +340,7 @@ MonoBehaviour:
         m_CallState: 2
   OnStopHover:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1765342730}
-        m_MethodName: Say
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Bye!
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &1229527811694636273
 GameObject:
   m_ObjectHideFlags: 0

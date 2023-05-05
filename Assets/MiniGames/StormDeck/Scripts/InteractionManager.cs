@@ -25,7 +25,7 @@ public class InteractionManager : MonoBehaviour
 			return;
 		}
 
-		// setting the instance should be the final check so we don't set an invalid InteractionManager as the singleton instance
+		// to make debugging easier, setting the instance should be the final check so we don't set an invalid InteractionManager as the singleton instance
 		if (instance != null) {
 			Debug.LogError("Only one instance of " + GetType() + " should exist at a time.");
 			return;
@@ -76,6 +76,4 @@ public class InteractionManager : MonoBehaviour
 	private bool CanInteract() {
 		return canInteract;
 	}
-
-	
 }

@@ -13,6 +13,6 @@ public class IncenseBurner : MonoBehaviour, InteractionPromptProvider
 	}
 
 	public void Interact() {
-		DialogueManager.instance.DisplayNotification(interactionResultText);
+		NotificationManager.instance.DisplayNotification(interactionResultText);
 	}
 }

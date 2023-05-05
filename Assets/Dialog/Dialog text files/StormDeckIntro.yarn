@@ -40,13 +40,13 @@ I need to go.
     Bye.
 <<endif>>
 ===
-title: astralagiDivination
+title: astragaliDivination
 tags: 
 colorID: 2
 position: 1100,-475
 ---
 <<setspeaker DialogScreen Jason>>
-I have some astralagi here. We should roll them to determine the cause of the storm. Can you help me?
+I have some astragali here. We should roll them to determine the cause of the storm. Can you help me?
 <<setspeaker DialogScreen other>>
 Of course, Jason. Allow me to set things up for you.
 <<set $startDiceRitual to true>>
@@ -67,9 +67,9 @@ position: 642,-279
 ---
 <<setspeaker DialogScreen other>>
 <<setend DialogScreen>>
-If a crew member has brought along astralagi, or knucklebone dice, we can roll them and I will interpret the meaning of the result. What divination would you like me to perform?
+If a crew member has brought along astragali, or knucklebone dice, we can roll them and I will interpret the meaning of the result. What divination would you like me to perform?
 
-[[Astralagi |astralagiDivination]]
+[[Astragali |astragaliDivination]]
 [[Sacrifice Animal |sacrificeAnimalDivination]]
 [[Back |mainSeerOptions]]
 ===

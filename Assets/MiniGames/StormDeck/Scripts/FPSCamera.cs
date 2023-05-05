@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class FPSCamera : MonoBehaviour
 {
-	public Transform character;
 	private const float ROTATION_SCALE = 200f;
-	private const float MAX_CAMERA_PITCH = 90f;
-	private float cameraPitch = 0;
+	private const float MAX_CAMERA_PITCH_DEG = 90f;
 
+	[Header("Configuration")]
 	public float vertLookSensitivity = 1f;
 	public float horizLookSensitivity = 1f;
 	public bool invertYAxis = false;
+
+	[Header("Object References")]
+	[SerializeField] private Transform character = null;
+	
+	private float cameraPitch = 0;
 
 	private void Update() {
 		UpdatePitch();
@@ -30,7 +34,7 @@ public class FPSCamera : MonoBehaviour
 		float mouseDeltaY = Input.GetAxis("Mouse Y");
 		int invertY = invertYAxis ? -1 : 1;
 		cameraPitch += mouseDeltaY * Time.deltaTime * ROTATION_SCALE * vertLookSensitivity * invertY;
-		cameraPitch = Mathf.Clamp(cameraPitch, -MAX_CAMERA_PITCH, MAX_CAMERA_PITCH);
+		cameraPitch = Mathf.Clamp(cameraPitch, -MAX_CAMERA_PITCH_DEG, MAX_CAMERA_PITCH_DEG);
 		transform.localRotation = Quaternion.AngleAxis(cameraPitch, Vector3.left);
 	}
 

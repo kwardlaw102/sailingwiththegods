@@ -5,12 +5,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class FPSMovement : MonoBehaviour
 {
+	public float moveSpeed = 3f;
 	public KeyCode FORWARD_KEY = KeyCode.W;
 	public KeyCode BACK_KEY = KeyCode.S;
 	public KeyCode LEFT_KEY = KeyCode.A;
 	public KeyCode RIGHT_KEY = KeyCode.D;
-	public float moveSpeed = 3f;
-	public bool canMove;
 
 	private Rigidbody rb;
 
@@ -22,6 +21,10 @@ public class FPSMovement : MonoBehaviour
 		Vector3 inputDirection = GetInputDirection();
 		rb.velocity = GetMovementDirection(inputDirection) * moveSpeed + Vector3.up * rb.velocity.y;
     }
+
+	public void Stop() {
+		rb.velocity = Vector3.zero;
+	}
 
 	private Vector3 GetMovementDirection(Vector3 inputDirection) {
 		return transform.forward * inputDirection.z + transform.right * inputDirection.x;

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,15 +5,13 @@ using UnityEngine.Events;
 
 public abstract class StormDeckRitual : MonoBehaviour
 {
-	private static Dictionary<Type, StormDeckRitual> ritualDictionary = new Dictionary<Type, StormDeckRitual>();
-	
+	private static readonly Dictionary<System.Type, StormDeckRitual> ritualDictionary = new Dictionary<System.Type, StormDeckRitual>();
+
 	public UnityEvent onRitualEnd;
 	
 	public abstract void StartRitual();
 
 	protected void Awake() {
-		//Debug.Log(GetType().ToString() + " is Awake");
-
 		if (!HasRegisteredRitual(this))
 			Register(this);
 	}
@@ -27,15 +24,15 @@ public abstract class StormDeckRitual : MonoBehaviour
 		return ritualDictionary.ContainsKey(ritual.GetType());
 	}
 
-	public static StormDeckRitual Run(Type ritualType) {
+	public static StormDeckRitual Run(System.Type ritualType) {
 		if (!ritualDictionary.ContainsKey(ritualType)) {
-			throw new ArgumentException("A ritual of type " + ritualType.ToString() + " does not exist in the scene.");
+			throw new System.ArgumentException("A ritual of type " + ritualType.ToString() + " does not exist in the scene.");
 		}
 		ritualDictionary[ritualType].StartRitual();
 		return ritualDictionary[ritualType];
 	}
 
-	public void ResetListeners() {
+	public void RemoveAllListeners() {
 		onRitualEnd.RemoveAllListeners();
 	}
 }
