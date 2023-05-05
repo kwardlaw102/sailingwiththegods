@@ -26,7 +26,9 @@ public class StormDeckManager : MonoBehaviour
 	[SerializeField] private List<string> malefactorFlavorText = null;
 	[SerializeField] private List<string> historicalQuotes = null;
 
-	private float successChance = 0.05f;
+	private float successChance = 0.05f; // gets modified by multiplier
+	private float successChanceMultiplier = 1f;
+	private float bonusSuccessChance = 0f; // added to success chance after multiplier
 	private readonly List<GameObject> crewObjects = new List<GameObject>();
 	private IList<CrewMember> crewRoster = null;
 
@@ -178,15 +180,31 @@ public class StormDeckManager : MonoBehaviour
 		Destroy(crewObjects[crewList.IndexOf(crewMember)]);
 		crewList.Remove(crewMember);
 		NotificationManager.instance.DisplayNotification(crewMember.name + " has been thrown overboard.");
+		successChance += 0.5f;
+	}
+
+	private void InitAstragaliConsequence() {
+		if (StormDeckRitual.TryGetRitual(out DiceMinigame diceMinigame)) {
+			diceMinigame.onRitualEnd.AddListener(() => {
+				// TODO: succeeding at the astragali minigame should give the player hint about what ritual to perform, not directly boost their chances of escape
+				NotificationManager.instance.DisplayNotification("You have performed a successful divination with the astragali,"
+					+ " and your odds of successfully navigating out of the storm have increased.");
+				successChanceMultiplier += 1.0f;
+			});
+		}
 	}
 
 	#endregion
 
 	#region Game flow
 
+	private float GetModifiedSuccessChance() {
+		return successChance * successChanceMultiplier + bonusSuccessChance;
+	}
+
 	// Player attempts to sail away after they have performed all of their rituals
 	public void EndMinigame() {
-		if (Random.Range(0f, 1f) < successChance) // TODO: success chance should increase when rituals are successfully performed
+		if (Random.Range(0f, 1f) < GetModifiedSuccessChance())
 			Victory();
 		else
 			Failure();
@@ -267,17 +285,6 @@ public class StormDeckManager : MonoBehaviour
 	}
 
 	#endregion
-
-	private void InitAstragaliConsequence() {
-		if (StormDeckRitual.TryGetRitual(out DiceMinigame diceMinigame)) {
-			diceMinigame.onRitualEnd.AddListener(() => {
-				// TODO: succeeding at the astragali minigame should give the player hint about what ritual to perform, not directly boost their chances of escape
-				NotificationManager.instance.DisplayNotification("You have performed a successful divination with the astragali,"
-					+ " and your odds of successfully navigating out of the storm have increased.");
-				successChance = 0.6f;
-			});
-		}
-	}
 
 	#region Private inner classes for collapsible inspector sections
 
