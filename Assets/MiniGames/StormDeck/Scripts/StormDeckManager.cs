@@ -57,10 +57,16 @@ public class StormDeckManager : MonoBehaviour
 		// Malefactor and ritual setup
 		ChooseMalefactor(crewRoster);
 		Debug.Log(crewRoster[malefactorNdx].name + " is the malefactor");
-		crewObjects[malefactorNdx].GetComponentInChildren<FPSInteractable>().OnInteract.RemoveAllListeners();
-		crewObjects[malefactorNdx].GetComponentInChildren<FPSInteractable>().OnInteract.AddListener(() => SacrificeCrewMember(crewRoster, crewRoster[malefactorNdx]));
+		crewObjects[malefactorNdx].GetComponentInChildren<FPSInteractable>().OnInteract = new UnityEvent(); // This is a workaround since RemoveAllListeners does not work for listeners assigned through inspector; see this thread: https://forum.unity.com/threads/documentation-unityevent-removealllisteners-only-removes-non-persistent-listeners.341796/ 
+		crewObjects[malefactorNdx].GetComponentInChildren<FPSInteractable>().OnInteract.AddListener(() => SacrificeCrewMember(PullCrewRoster(), crewRoster[malefactorNdx]));
 		SpawnAstragali(crewRoster);
-		InitYarnFlagResponses();
+		try {
+			InitYarnFlagResponses(); // FIXME: since the flag responses are registered in a static variable, entering the minigame multiple times creates duplicates
+		}
+		catch (System.NotImplementedException e) {
+			Debug.LogError(e.StackTrace);
+		}
+		InitAstragaliConsequence();
 
 		StartCoroutine(ShowInfoMenuCoroutine(EnableControls));
 		ShowEventInfoDialog();
@@ -261,6 +267,17 @@ public class StormDeckManager : MonoBehaviour
 	}
 
 	#endregion
+
+	private void InitAstragaliConsequence() {
+		if (StormDeckRitual.TryGetRitual(out DiceMinigame diceMinigame)) {
+			diceMinigame.onRitualEnd.AddListener(() => {
+				// TODO: succeeding at the astragali minigame should give the player hint about what ritual to perform, not directly boost their chances of escape
+				NotificationManager.instance.DisplayNotification("You have performed a successful divination with the astragali,"
+					+ " and your odds of successfully navigating out of the storm have increased.");
+				successChance = 0.6f;
+			});
+		}
+	}
 
 	#region Private inner classes for collapsible inspector sections
 

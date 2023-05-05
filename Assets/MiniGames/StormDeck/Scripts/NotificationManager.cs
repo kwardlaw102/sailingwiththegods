@@ -40,6 +40,10 @@ public class NotificationManager : MonoBehaviour
 		StopAllCoroutines();
 		float visibleSeconds = visibleSecondsBase + text.Length * visibleSecondsPerCharacter;
 		StartCoroutine(FadeCoroutine(fadeInSeconds, visibleSeconds, fadeOutSeconds));
+
+		if (TryGetComponent(out AudioSource audioSource)) {
+			audioSource.Play();
+		}
 	}
 
 	private void HideText() {

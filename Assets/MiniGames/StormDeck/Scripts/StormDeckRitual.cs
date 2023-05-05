@@ -32,7 +32,12 @@ public abstract class StormDeckRitual : MonoBehaviour
 		return ritualDictionary[ritualType];
 	}
 
-	public void RemoveAllListeners() {
-		onRitualEnd.RemoveAllListeners();
+	public static bool TryGetRitual<T>(out T ritualInstance) where T : StormDeckRitual {
+		if (!ritualDictionary.ContainsKey(typeof(T))) {
+			ritualInstance = null;
+			return false;
+		}
+		ritualInstance = (T) ritualDictionary[typeof(T)];
+		return true;
 	}
 }
