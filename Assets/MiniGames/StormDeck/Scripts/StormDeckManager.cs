@@ -77,7 +77,8 @@ public class StormDeckManager : MonoBehaviour
 	// Update this function when new mechanics need to be triggered by the Yarn dialogue system
 	private void InitYarnFlagResponses() {
 		YarnFlagResponse.RegisterResponse("$startDiceRitual", new RunRitualResponse(typeof(DiceMinigame)));
-		YarnFlagResponse.RegisterResponse("$startSacrificeAnimalRitual", new FuncResponse(() => Debug.Log("(Run sacrifice animal divination)")));
+		YarnFlagResponse.RegisterResponse("$startSacrificeAnimalRitual", new FuncResponse(() => NotificationManager.instance.DisplayNotification("This ritual is not yet implemented.")));
+		YarnFlagResponse.RegisterResponse("$enableControls", new FuncResponse(null));
 	}
 
 	public void DisableControls() {

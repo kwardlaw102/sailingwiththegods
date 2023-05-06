@@ -49,7 +49,8 @@ public class FuncResponse : YarnFlagResponse
 	}
 
 	public override void Invoke() {
-		functionCall.Invoke();
+		if (functionCall != null)
+			functionCall.Invoke();
 		StormDeckManager.instance.EnableControls();
 	}
 }

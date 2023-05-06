@@ -39,6 +39,7 @@ I need to go.
 <<else>>
     Bye.
 <<endif>>
+<<set $enableControls to true>>
 ===
 title: astragaliDivination
 tags: 
@@ -79,7 +80,10 @@ colorID: 0
 position: 644,-13
 ---
 <<setspeaker DialogScreen other>>
+<<setend DialogScreen>>
 What ritual would you like me to perform?
+
+[[Back |mainSeerOptions]]
 ===
 title: sacrificeAnimalDivination
 tags: 
